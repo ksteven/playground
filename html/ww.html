@@ -44,7 +44,7 @@
 							  select_box.addClass('search');
 							 $('#search_in').append(select_box);
 							 $(select_box).chosen().change(function(){
-									console.log("changed");
+									//console.log("changed");
 									var regExSearch = $(this).val();
 									$('#example').DataTable().search(regExSearch, true, false
 									).draw();
@@ -57,7 +57,7 @@
 								   var human = 0;
 									table.rows({ search:'applied', page:'all' } ).data().each(
 									function(value, index) {
-										console.log(value);
+										//console.log(value);
 										var role = value[2];
 										var result = value[5];
 										if(role[0] == "M"){
@@ -83,7 +83,7 @@
 									$('#stats_row').children('td').eq(3).html(losses);
 									$('#stats_row').children('td').eq(4).html(human);
 									$('#stats_row').children('td').eq(5).html(wolf);
-									console.log("searched");
+									//console.log("searched");
 							  });//end change
 							}
 						} );  //every select for column
