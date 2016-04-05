@@ -62,6 +62,7 @@
 								   var human_games = 0;
 								   var wolf_games = 0;
 								   var seer_games = 0;
+								   var survive = 0;
 								   table.rows({ search:'applied', page:'all' } ).data()
 								   .each(function(value, index) {
 										console.log(value);
@@ -69,6 +70,10 @@
 										var fate = value[3];
 										var rd = value[4];
 										var result = value[5];
+										
+										if(fate == "Survived"){
+										  survive++; 
+										}
 										
 										if(role[0] == "M"){ //moderator
 										  mods++;
@@ -101,13 +106,14 @@
 									//player totals 
 									total_games = total_games - mods; 
 									var win_pct = parseFloat((wins/total_games)*100).toFixed(2);
+									var sur_rate = parseFloat((survive/total_games)*100).toFixed(2);
 									$('#stats_row').children('td').eq(0).html(total_games);
 									$('#stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#stats_row').children('td').eq(2).html(wins);
 									$('#stats_row').children('td').eq(3).html(losses);
-									$('#stats_row').children('td').eq(4).html(human);
-									$('#stats_row').children('td').eq(5).html(wolf);
-									$('#stats_row').children('td').eq(6).html(seer);
+									$('#stats_row').children('td').eq(4).html(sur_rate+'%');
+									//$('#stats_row').children('td').eq(5).html(wolf);
+									//$('#stats_row').children('td').eq(6).html(seer);
 									
 									//human totals
 									win_pct = parseFloat((human/human_games)*100).toFixed(2);
@@ -172,12 +178,11 @@
 		<th>Total Games Played</th>
 		<th>Win %</th>
 		<th>Wins</th><th>Losses</th> 
-		<th>Human win</th> <th>Wolf Win</th>
-		<th>Seer Win</th>
+		<th>Survival Rate</th> 
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 		</table>
 		</div> <!-- /Total Result Pane -->
