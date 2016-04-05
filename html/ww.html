@@ -5,27 +5,137 @@
 		
 		<title>WW Data</title>
 
+		
 		<link rel="stylesheet" type="text/css" href="../cdn.datatables.net/r/bs-3.3.5/jq-2.1.4%2cdt-1.10.8/datatables.min.css"/>
  
+        
+		<link rel="stylesheet" type="text/css" href="src/css/chosen.min.css"/>
+ 
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        
 		<script type="text/javascript" src="../cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3%2cdt-1.10.8/datatables.min.js"></script>
+		<script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#example').DataTable({
-				   "ajax": 'src/src.txt'
+				var table = $('#example').DataTable({
+				   //"ajax": 'src/src.txt'
+				   "ajax": "http://ksteven.github.io/html/src/src.txt",
+				   initComplete:  function(){
+				       this.api().columns().every( function (index) {
+							var column = this;
+							var select = $('<select><option value=""></option></select>')
+								.appendTo( $(column.footer()).empty() )
+								.on( 'change', function () {
+									var val = $.fn.dataTable.util.escapeRegex(
+										$(this).val()
+									);
+			 
+									column
+										.search( val ? '^'+val+'$' : '', true, false )
+										.draw();
+								} );
+			 
+							column.data().unique().sort().each( function ( d, j ) {
+								select.append( '<option value="'+d+'">'+d+'</option>' )
+							} );
+							if(index ===1){
+							  var select_box = select.clone();
+							  select_box.addClass('search');
+							 $('#search_in').append(select_box);
+							 $(select_box).chosen().change(function(){
+									console.log("changed");
+									var regExSearch = $(this).val();
+									$('#example').DataTable().search(regExSearch, true, false
+									).draw();
+									
+				                   var total_games = table.rows({ search:'applied', page:'all' } ).data().length;
+								   var wins = 0;
+								   var losses = 0;
+								   var mods = 0;
+								   var wolf = 0;
+								   var human = 0;
+									table.rows({ search:'applied', page:'all' } ).data().each(
+									function(value, index) {
+										console.log(value);
+										var role = value[2];
+										var result = value[5];
+										if(role[0] == "M"){
+										  mods++;
+										}
+										else if(role[0] == result[0]){
+										  wins++;
+										  if(role[0].indexOf("H")>-1){
+										    human++;
+										  }else{
+										    wolf++;
+										  }
+										}
+										else{
+										  losses++;
+										}
+									});
+									total_games = total_games - mods; 
+									var win_pct = parseFloat((wins/total_games)*100).toFixed(2);
+									$('#stats_row').children('td').eq(0).html(total_games);
+									$('#stats_row').children('td').eq(1).html(win_pct+'%');
+									$('#stats_row').children('td').eq(2).html(wins);
+									$('#stats_row').children('td').eq(3).html(losses);
+									$('#stats_row').children('td').eq(4).html(human);
+									$('#stats_row').children('td').eq(5).html(wolf);
+									console.log("searched");
+							  });//end change
+							}
+						} );  //every select for column
+						} //init
 				});
+					
+				
 			} );
 		</script>
+		<style>
+		  .search{
+		    width: 500px;
+		  }
+		</style>
+		
 	</head>
 	<body>
 		<div class="container">
-		<h1>WW Database</h1>
+		<div class="row"><h1>WW Database* April 04, 2016</h1></div>
+		<div class="row">
+		<h3>Player Statistics Search</h3>
+		<div class="well">
+		<div class="input-group">
+		  <label>Player Name</label>
+		  <span id="search_in">
+		  </span>
+		</div><!-- /input-group -->
+		<table id="player_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Total Games Played</th>
+		<th>Win %</th>
+		<th>Wins</th><th>Losses</th> 
+		<th>Human win</th> <th>Wolf Win</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		</tbody>
+		</table>
+		</div>
+		
+		</div>
+		<div class="row">
+		<h3>Game Statistics</h3>
 		<table id="example" class="display" cellspacing="0" width="100%">
 		<thead>
 		<tr><th>Game No.</th><th>Player</th><th>Role</th><th>Fate</th><th>Round</th><th>Outcome</th><th>Total Game Rounds</th></tr></thead>
-
 		</tbody>
+		<tfoot><tr><th>Game No.</th><th>Player</th><th>Role</th><th>Fate</th><th>Round</th><th>Outcome</th><th>Total Game Rounds</th></tr></tfoot>
 		</table>
-			
+		</div>
+		
 		</div>
 
 <script type="text/javascript">
