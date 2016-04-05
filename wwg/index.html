@@ -18,7 +18,9 @@
 		<script type="text/javascript" src="src/js/chosen.jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				var table = $('#example').DataTable({
+				var table = $('#example').on( 'processing.dt', function ( e, settings, processing ) {
+        $('#processingIndicator').css( 'display', processing ? 'block' : 'none' );
+    } ).DataTable({
 				   //"ajax": 'src/src.txt'
 				   "ajax": "http://ksteven.github.io/wwg/src/src.txt",
 				   initComplete:  function(){
