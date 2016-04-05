@@ -45,7 +45,7 @@
 							  var select_box = select.clone();
 							  select_box.addClass('search');
 							 $('#search_in').append(select_box);
-							 $(select_box).select2().change(function(){
+							 $(select_box).select2({minimumInputLength:3, placeholder: 'Enter a username'}).change(function(){
 									//console.log("changed");
 									$('.footer-filter').not('.search').val("").change();
 									var regExSearch = $(this).val();
@@ -102,9 +102,6 @@
 			} );
 		</script>
 		<style>
-		  .search{
-		    width: 500px;
-		  }
 		  .footer {
 				bottom: 0;
 				width: 100%;
