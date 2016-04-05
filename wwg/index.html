@@ -48,7 +48,7 @@
 									var regExSearch = $(this).val();
 									$('#example').DataTable().search(regExSearch, true, false
 									).draw();
-									
+									$('#player_name').html(regExSearch);
 				                   var total_games = table.rows({ search:'applied', page:'all' } ).data().length;
 								   var wins = 0;
 								   var losses = 0;
@@ -105,12 +105,16 @@
 		<div class="row"><h1>WW Database* April 04, 2016</h1></div>
 		<div class="row">
 		<h3>Player Statistics Search</h3>
-		<div class="well">
+		<div class="">
 		<div class="input-group">
 		  <label>Player Name</label>
 		  <span id="search_in">
 		  </span>
 		</div><!-- /input-group -->
+		<br>
+		<div class="panel panel-default">
+  <!-- Default panel contents -->
+       <div id="player_name" class="panel-heading">Player Stats</div>
 		<table id="player_stats" class="table table-bordered"><thead>
 		<tr>
 		<th>Total Games Played</th>
@@ -123,6 +127,7 @@
 		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 		</table>
+		</div>
 		</div>
 		
 		</div>
