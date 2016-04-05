@@ -58,6 +58,7 @@
 								   var mods = 0;
 								   var wolf = 0;
 								   var human = 0;
+								   var seer = 0;
 									table.rows({ search:'applied', page:'all' } ).data().each(
 									function(value, index) {
 										//console.log(value);
@@ -66,13 +67,16 @@
 										if(role[0] == "M"){
 										  mods++;
 										}
-										else if(role[0] == result[0] || (role.indexOf("S") > -1 && result.indexOf("H"))){
+										else if(role[0] == result[0]){
 										  wins++;
 										  if(role[0].indexOf("H")>-1){
 										    human++;
 										  }else{
 										    wolf++;
 										  }
+										}else if (role.indexOf("S") > -1 && result.indexOf("H")){
+										  wins++;
+										  seer++;
 										}
 										else{
 										  losses++;
@@ -86,6 +90,7 @@
 									$('#stats_row').children('td').eq(3).html(losses);
 									$('#stats_row').children('td').eq(4).html(human);
 									$('#stats_row').children('td').eq(5).html(wolf);
+									$('#stats_row').children('td').eq(6).html(seer);
 									//console.log("searched");
 							  });//end change
 							}
@@ -124,10 +129,11 @@
 		<th>Win %</th>
 		<th>Wins</th><th>Losses</th> 
 		<th>Human win</th> <th>Wolf Win</th>
+		<th>Seer Win</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 		</table>
 		</div>
