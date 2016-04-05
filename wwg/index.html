@@ -105,7 +105,9 @@
 									});
 									//player totals 
 									total_games = total_games - mods; 
+									
 									var win_pct = parseFloat((wins/total_games)*100).toFixed(2);
+									
 									var sur_rate = parseFloat((survive/total_games)*100).toFixed(2);
 									$('#stats_row').children('td').eq(0).html(total_games);
 									$('#stats_row').children('td').eq(1).html(win_pct+'%');
@@ -117,6 +119,8 @@
 									
 									//human totals
 									win_pct = parseFloat((human/human_games)*100).toFixed(2);
+									var best_pct =  win_pct;
+									var best_role = "Human";
 									$('#human_stats_row').children('td').eq(0).html(human_games);
 									$('#human_stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#human_stats_row').children('td').eq(2).html(human);
@@ -125,7 +129,11 @@
 									$('#human_stats_row').children('td').eq(5).html('-');
 									
 									//wolf totals
+									
 									win_pct = parseFloat((wolf/wolf_games)*100).toFixed(2);
+									if(win_pct > best_pct){
+									best_pct = win_pct; 
+									best_role="Wolf";}
 									$('#wolf_stats_row').children('td').eq(0).html(wolf_games);
 									$('#wolf_stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#wolf_stats_row').children('td').eq(2).html(wolf);
@@ -134,11 +142,17 @@
 									
 									//seer totals
 									win_pct = parseFloat((seer/seer_games)*100).toFixed(2);
+									if(win_pct > best_pct){
+									best_pct = win_pct; 
+									best_role="Seer";}
 									$('#seer_stats_row').children('td').eq(0).html(seer_games);
 									$('#seer_stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#seer_stats_row').children('td').eq(2).html(seer);
 									$('#seer_stats_row').children('td').eq(3).html(parseInt(seer_games-seer));
 									$('#seer_stats_row').children('td').eq(4).html('-');
+									
+									//best role
+									$('#stats_row').children('td').eq(5).html(best_role + " ("+best_pct+"%)");
 							  });//end change
 							}
 						} );  //every select for column
@@ -179,10 +193,11 @@
 		<th>Win %</th>
 		<th>Wins</th><th>Losses</th> 
 		<th>Survival Rate</th> 
+		<th>Best Role</th> 
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 		</table>
 		</div> <!-- /Total Result Pane -->
