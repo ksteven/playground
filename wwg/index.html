@@ -45,13 +45,13 @@
 							  var select_box = select.clone();
 							  select_box.addClass('search');
 							 $('#search_in').append(select_box);
-							 $(select_box).select2({minimumInputLength:3, placeholder: 'Enter a username'}).change(function(){
+							 $(select_box).select2({minimumInputLength:3, placeholder: 'Enter a username'})
+							    .change(function(){
 									//console.log("changed");
 									$('.footer-filter').not('.search').val("").change();
 									var regExSearch = $(this).val();
-									$('#example').DataTable().search(regExSearch, true, false
-									).draw();
-									$('#player_name').html(regExSearch);
+									$('#example').DataTable().search(regExSearch, true, false).draw();
+									$('.player_name').html(regExSearch);
 				                   var total_games = table.rows({ search:'applied', page:'all' } ).data().length;
 								   var wins = 0;
 								   var losses = 0;
@@ -59,29 +59,46 @@
 								   var wolf = 0;
 								   var human = 0;
 								   var seer = 0;
-									table.rows({ search:'applied', page:'all' } ).data().each(
-									function(value, index) {
-										//console.log(value);
+								   var human_games = 0;
+								   var wolf_games = 0;
+								   var seer_games = 0;
+								   table.rows({ search:'applied', page:'all' } ).data()
+								   .each(function(value, index) {
+										console.log(value);
 										var role = value[2];
+										var fate = value[3];
+										var rd = value[4];
 										var result = value[5];
-										if(role[0] == "M"){
+										
+										if(role[0] == "M"){ //moderator
 										  mods++;
-										}
-										else if(role[0] == result[0]){
-										  wins++;
-										  if(role[0].indexOf("H")>-1){
-										    human++;
+										}else if(role[0] == "W"){ //wolf
+										  wolf_games++;
+										  if(role[0] == result[0]){
+										    wins++;
+											wolf++;
 										  }else{
-										    wolf++;
-										  }
-										}else if (role.indexOf("S") > -1 && result.indexOf("H") > -1){
-										  wins++;
-										  seer++;
-										}
-										else{
 										  losses++;
+										  }
+										}else if(role[0] == "H"){ //human
+										  human_games++;
+										  if(role[0] == result[0]){
+										    wins++;
+											human++;
+										  }else{
+										  losses++;
+										  }
+										}else if(role[0] == "S"){ //seer
+										  seer_games++;
+										  if(result.indexOf("H") > -1){
+											  wins++;
+											  seer++;
+										  }else{
+										      losses++;
+										  }
 										}
 									});
+									//player totals 
 									total_games = total_games - mods; 
 									var win_pct = parseFloat((wins/total_games)*100).toFixed(2);
 									$('#stats_row').children('td').eq(0).html(total_games);
@@ -91,7 +108,31 @@
 									$('#stats_row').children('td').eq(4).html(human);
 									$('#stats_row').children('td').eq(5).html(wolf);
 									$('#stats_row').children('td').eq(6).html(seer);
-									//console.log("searched");
+									
+									//human totals
+									win_pct = parseFloat((human/human_games)*100).toFixed(2);
+									$('#human_stats_row').children('td').eq(0).html(human_games);
+									$('#human_stats_row').children('td').eq(1).html(win_pct+'%');
+									$('#human_stats_row').children('td').eq(2).html(human);
+									$('#human_stats_row').children('td').eq(3).html(parseInt(human_games-human));
+									$('#human_stats_row').children('td').eq(4).html('-');
+									$('#human_stats_row').children('td').eq(5).html('-');
+									
+									//wolf totals
+									win_pct = parseFloat((wolf/wolf_games)*100).toFixed(2);
+									$('#wolf_stats_row').children('td').eq(0).html(wolf_games);
+									$('#wolf_stats_row').children('td').eq(1).html(win_pct+'%');
+									$('#wolf_stats_row').children('td').eq(2).html(wolf);
+									$('#wolf_stats_row').children('td').eq(3).html(parseInt(wolf_games-wolf));
+									$('#wolf_stats_row').children('td').eq(4).html('-');
+									
+									//seer totals
+									win_pct = parseFloat((seer/seer_games)*100).toFixed(2);
+									$('#seer_stats_row').children('td').eq(0).html(seer_games);
+									$('#seer_stats_row').children('td').eq(1).html(win_pct+'%');
+									$('#seer_stats_row').children('td').eq(2).html(seer);
+									$('#seer_stats_row').children('td').eq(3).html(parseInt(seer_games-seer));
+									$('#seer_stats_row').children('td').eq(4).html('-');
 							  });//end change
 							}
 						} );  //every select for column
@@ -123,9 +164,9 @@
 		  </span>
 		</div><!-- /input-group -->
 		<br>
+		<!-- Total Result Pane -->
 		<div class="panel panel-default">
-  <!-- Default panel contents -->
-       <div id="player_name" class="panel-heading">Player Stats</div>
+        <div id="" class="panel-heading">Total Stats: <span class="player_name"></span></div>
 		<table id="player_stats" class="table table-bordered"><thead>
 		<tr>
 		<th>Total Games Played</th>
@@ -139,7 +180,82 @@
 		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 		</table>
-		</div>
+		</div> <!-- /Total Result Pane -->
+		
+		<!-- Human Result Pane -->
+		<div class="panel panel-default">
+        <div id="" class="panel-heading">Human Stats: <span class="player_name"></span></div>
+		<table id="human_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Human Games Played</th>
+		<th>Human Win %</th>
+		<th>Wins</th>
+		<th>Losses</th> 
+		<th>Avg. Round Shot</th>
+		<th>Avg. Round Eaten</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="human_stats_row">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tbody>
+		</table>
+		</div> <!-- /Human Result Pane -->
+		
+		<!-- WOLF Result Pane -->
+		<div class="panel panel-default">
+        <div id="" class="panel-heading">Wolf Stats: <span class="player_name"></span></div>
+		<table id="wolf_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Wolf Games Played</th>
+		<th>Wolf Win %</th>
+		<th>Wins</th>
+		<th>Losses</th> 
+		<th>Avg. Round Shot</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="wolf_stats_row">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tbody>
+		</table>
+		</div> <!-- /WOLF Result Pane -->
+		
+		<!-- SEER Result Pane -->
+		<div class="panel panel-default">
+        <div id="" class="panel-heading">Seer Stats: <span class="player_name"></span></div>
+		<table id="seer_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Seer Games Played</th>
+		<th>Seer Win %</th>
+		<th>Wins</th>
+		<th>Losses</th> 
+		<th>Avg. Round Caught</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="seer_stats_row">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tbody>
+		</table>
+		</div> <!-- /WOLF Result Pane -->
+		
 		</div>
 		
 		</div>
