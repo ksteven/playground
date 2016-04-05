@@ -118,7 +118,11 @@
 									//$('#stats_row').children('td').eq(6).html(seer);
 									
 									//human totals
+									if(human_games)
 									win_pct = parseFloat((human/human_games)*100).toFixed(2);
+									else 
+									win_pct = 0;
+									
 									var best_pct =  win_pct;
 									var best_role = "Human";
 									$('#human_stats_row').children('td').eq(0).html(human_games);
@@ -129,8 +133,11 @@
 									$('#human_stats_row').children('td').eq(5).html('-');
 									
 									//wolf totals
-									
+									if(wolf_games > 0)
 									win_pct = parseFloat((wolf/wolf_games)*100).toFixed(2);
+									else
+									win_pct = 0;
+									
 									if(win_pct > best_pct){
 									best_pct = win_pct; 
 									best_role="Wolf";}
@@ -141,8 +148,12 @@
 									$('#wolf_stats_row').children('td').eq(4).html('-');
 									
 									//seer totals
+									if(seer_games > 0)
 									win_pct = parseFloat((seer/seer_games)*100).toFixed(2);
-									if(win_pct > best_pct){
+									else
+									win_pct = 0;
+									
+									if(seer_games > 0 && win_pct > best_pct){
 									best_pct = win_pct; 
 									best_role="Seer";}
 									$('#seer_stats_row').children('td').eq(0).html(seer_games);
