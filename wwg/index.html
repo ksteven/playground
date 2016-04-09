@@ -17,6 +17,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
 		
 		<script type="text/javascript" charset="utf-8">
+		var getArrayAvg = function(arr){
+			var total = 0;
+			var avg = 0;
+			for(var i = 0; i < arr.length; i++) {
+				total += arr[i];
+			};
+			avg = parseFloat(total / arr.length).toFixed(2);
+			if(isNaN(avg))
+			  avg = 0;
+			
+			return avg;
+		};
+		
 			$(document).ready(function() {
 				var table = $('#example').on( 'processing.dt', function ( e, settings, processing ) {
         $('#processingIndicator').css( 'display', processing ? 'block' : 'none' );
@@ -64,6 +77,11 @@
 								   var wolf_games = 0;
 								   var seer_games = 0;
 								   var survive = 0;
+								   var h_shot_rd = new Array();
+								   var h_eaten_rd = new Array();
+								   var w_shot_rd = new Array();
+								   var s_die_rd = new Array();
+								   
 								   table.rows({ search:'applied', page:'all' } ).data()
 								   .each(function(value, index) {
 										console.log(value);
@@ -72,9 +90,9 @@
 										var rd = value[4];
 										var result = value[5];
 										
-										if(fate == "Survived"){
-										  survive++; 
-										}
+										//if(fate == "Survived"){
+										//  survive++; 
+										//}
 										
 										if(role[0] == "M"){ //moderator
 										  mods++;
@@ -84,7 +102,12 @@
 										    wins++;
 											wolf++;
 										  }else{
-										  losses++;
+											losses++;
+										  }
+										  if(fate == "Survived"){
+										    survive++; 
+										  }else{
+										    w_shot_rd.push(rd);
 										  }
 										}else if(role[0] == "H"){ //human
 										  human_games++;
@@ -92,7 +115,14 @@
 										    wins++;
 											human++;
 										  }else{
-										  losses++;
+											losses++;
+										  }
+										  if(fate == "Survived"){
+										    survive++; 
+										  }else if(fate=="Shot"){
+										    h_shot_rd.push(rd);
+										  }else{
+										    h_eaten_rd.push(rd);
 										  }
 										}else if(role[0] == "S"){ //seer
 										  seer_games++;
@@ -102,6 +132,10 @@
 										  }else{
 										      losses++;
 										  }
+										  if(fate == "Survived"){
+										    survive++; 
+										  }
+										  s_die_rd.push(rd); 
 										}
 									});
 									//player totals 
@@ -130,8 +164,8 @@
 									$('#human_stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#human_stats_row').children('td').eq(2).html(human);
 									$('#human_stats_row').children('td').eq(3).html(parseInt(human_games-human));
-									$('#human_stats_row').children('td').eq(4).html('-');
-									$('#human_stats_row').children('td').eq(5).html('-');
+									$('#human_stats_row').children('td').eq(4).html(getArrayAvg(h_shot_rd)+ " (Shot "+h_shot_rd.length+ " times)");
+									$('#human_stats_row').children('td').eq(5).html(getArrayAvg(h_eaten_rd)+ " (Eaten "+h_eaten_rd.length+ " times)");
 									
 									//wolf totals
 									if(wolf_games > 0)
@@ -146,7 +180,7 @@
 									$('#wolf_stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#wolf_stats_row').children('td').eq(2).html(wolf);
 									$('#wolf_stats_row').children('td').eq(3).html(parseInt(wolf_games-wolf));
-									$('#wolf_stats_row').children('td').eq(4).html('-');
+									$('#wolf_stats_row').children('td').eq(4).html(getArrayAvg(w_shot_rd)+ " (Shot "+w_shot_rd.length+ " times)");
 									
 									//seer totals
 									if(seer_games > 0)
@@ -161,7 +195,7 @@
 									$('#seer_stats_row').children('td').eq(1).html(win_pct+'%');
 									$('#seer_stats_row').children('td').eq(2).html(seer);
 									$('#seer_stats_row').children('td').eq(3).html(parseInt(seer_games-seer));
-									$('#seer_stats_row').children('td').eq(4).html('-');
+									$('#seer_stats_row').children('td').eq(4).html(getArrayAvg(s_die_rd));
 									
 									//best role
 									$('#stats_row').children('td').eq(5).html(best_role + " ("+best_pct+"%)");
@@ -196,15 +230,14 @@
 	</head>
 	<body>
 		<div class="container">
-		<div class="row"><h1><span class="pull-left">WWG Database</span><div class="" style="">&nbsp;&nbsp;<button id="clear" type="button" class="btn btn-info">Clear All</button></div></h1>
+		<div class="row"><h1><span class="pull-left">WWG Database</span><div class="" style="">&nbsp;&nbsp;<button id="clear" type="button" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span> Clear All</button></div></h1>
 		</div>
 		<div class="row">
 		<h3>Player Statistics Search 
 		</h3> 
 		<div class="">
 		<div class="well input-group">
-		  <label style="
-    margin-right: 10px;">Player Name</label>
+		  <label style="margin-right: 10px;">Player Name</label>
 		  <span id="search_in">
 		    <div class="alert alert-info"><strong>Data is loading... Please wait.</strong></div>
 		  </span>
