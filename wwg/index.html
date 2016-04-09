@@ -44,14 +44,15 @@
 							if(index ===1){
 							  var select_box = select.clone();
 							  select_box.addClass('search');
-							 $('#search_in').append(select_box);
+							 $('#search_in').html(select_box);
 							 $(select_box).select2({minimumInputLength:3, placeholder: 'Enter a username'})
 							    .change(function(){
-									//console.log("changed");
 									$('.footer-filter').not('.search').val("").change();
-									var regExSearch = $(this).val();
-									$('#example').DataTable().search(regExSearch, true, false).draw();
-									$('.player_name').html(regExSearch);
+									var player_name = $(this).val();
+									var regExSearch = "^"+player_name+"$";
+									table.search(player_name).draw();
+									table.columns(1).search(regExSearch, true).draw();
+									$('.player_name').html(player_name);
 				                   var total_games = table.rows({ search:'applied', page:'all' } ).data().length;
 								   var wins = 0;
 								   var losses = 0;
@@ -169,7 +170,17 @@
 						} );  //every select for column
 						} //init
 				});
-					
+			
+				$('#clear').click(function(){
+				   console.log("clear");
+				   $('.search').select2("val", "");
+				   table.search( '' )
+					 .columns().search( '' )
+					 .draw('full-reset');
+				   $('.ww_stat').children('td').html('');
+				   $('.player_name').html('');
+				});			
+				
 				
 			} );
 		</script>
@@ -185,15 +196,20 @@
 	</head>
 	<body>
 		<div class="container">
-		<div class="row"><h1>WWG Database</h1></div>
+		<div class="row"><h1><span class="pull-left">WWG Database</span><div class="" style="">&nbsp;&nbsp;<button id="clear" type="button" class="btn btn-info">Clear All</button></div></h1>
+		</div>
 		<div class="row">
-		<h3>Player Statistics Search</h3>
+		<h3>Player Statistics Search 
+		</h3> 
 		<div class="">
-		<div class="input-group">
-		  <label>Player Name</label>
+		<div class="well input-group">
+		  <label style="
+    margin-right: 10px;">Player Name</label>
 		  <span id="search_in">
+		    <div class="alert alert-info"><strong>Data is loading... Please wait.</strong></div>
 		  </span>
 		</div><!-- /input-group -->
+		
 		<br>
 		<!-- Total Result Pane -->
 		<div class="panel panel-primary">
@@ -208,7 +224,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="stats_row"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr id="stats_row" class="ww_stat"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 		</tbody>
 		</table>
 		</div> <!-- /Total Result Pane -->
@@ -228,7 +244,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="human_stats_row">
+		<tr id="human_stats_row" class="ww_stat">
 		<td></td>
 		<td></td>
 		<td></td>
@@ -253,7 +269,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="wolf_stats_row">
+		<tr id="wolf_stats_row" class="ww_stat">
 		<td></td>
 		<td></td>
 		<td></td>
@@ -277,7 +293,7 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr id="seer_stats_row">
+		<tr id="seer_stats_row" class="ww_stat">
 		<td></td>
 		<td></td>
 		<td></td>
