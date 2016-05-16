@@ -225,12 +225,16 @@
 		      var label = $(this).parent().siblings(".control-label").text(); 
 		      var checkedVal = $(this).siblings("input[type='number']").val(); 
 			  var random = Math.floor((Math.random() * 100) + 1);
+			  var diff = 0;
+			  diff = checkedVal - random;
 			  
 			  if(random > checkedVal){ //this failed 
 			    isSuccessful = false; 
-			    alertReturn = alertReturn + ""+label+ " with score "+checkedVal+ " failed due to result "+random + "<br/>";
+			    alertReturn = alertReturn + ""+label+ " with score "+checkedVal+ " failed due to result "+random 
+				+ ". Difference is <strong>"+diff+"</strong> <br/>";
 			  }else{ //this succeeds  
-			     alertReturn = alertReturn + " "+label+ " with score "+checkedVal+ " succeeded with result "+random + "<br/>";
+			     alertReturn = alertReturn + " "+label+ " with score "+checkedVal+ " succeeded with result "+random 
+				 + ". Difference is <strong>"+diff+"</strong> <br/>";
 			  }
 		   });
 		   
