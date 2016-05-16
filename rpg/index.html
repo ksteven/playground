@@ -118,7 +118,7 @@
 		<div class=" col-md-6">
 		 <h3>Results Pane</h3>
 		 <div id="results" class="alert alert-info">
-		  <strong>Results will appear here.</strong>
+		  <strong>Select checkboxes next to abilities to test. Results will appear here.</strong>
 		 </div>
 		</div>
 		</div> <!-- /row --> 
@@ -141,6 +141,7 @@
 		 <tbody>
 		 </tbody>
 		</table>
+		<button class="btn btn-danger pull-right" onClick="if(confirm('Sure?'))localStorage.clear();">Delete All</button>
 		</div>
 	</div>	<!-- /row --> 
 	
@@ -213,6 +214,7 @@
 		   characters.push(character);
 		   console.log(characters);
 		   localStorage.setItem('rpg_chars', JSON.stringify(characters));
+		   location.reload();
 	   });
 	   
 	   $('#calculate').click(function(){
