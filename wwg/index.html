@@ -21,7 +21,8 @@
 			var total = 0;
 			var avg = 0;
 			for(var i = 0; i < arr.length; i++) {
-				total += arr[i];
+			   
+				total += parseInt(arr[i]);
 			};
 			avg = parseFloat(total / arr.length).toFixed(2);
 			if(isNaN(avg))
