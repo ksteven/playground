@@ -29,11 +29,13 @@
 		  for(var i=1;i<lines.length;i++){
 
 			  var obj = {};
-			  var currentline=lines[i].split(",");
+			  var currentline=lines[i].split(',"')[0].split(",");
 
-			  for(var j=0;j<headers.length;j++){
+			  for(var j=0;j<headers.length-1;j++){
 				  obj[headers[j]] = currentline[j];
 			  }
+			  // add the array 
+			  obj[headers[headers.length-1]] = lines[i].split(',"')[1].split(",");
 
 			  result.push(obj);
 
@@ -41,6 +43,9 @@
 		  
 		  //return result; //JavaScript object
 		  return JSON.stringify(result); //JSON
+		}
+		
+		function checkAndParseArray(line){
 		}
 		 
 		 //end utility 
