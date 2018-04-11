@@ -23,8 +23,8 @@
     type: 'GET',
     crossDomain: true,
     dataType: 'csv/text',
-    success: function() { alert("Success"); },
-    error: function() { alert('Failed!'); },
+    success: function(d) { alert("Success"); console.log(d); },
+    error: function(e) { alert('Failed!'); console.log(e); },
     //beforeSend: setHeader
 			}).done(function() {
 			  console.log("done");
