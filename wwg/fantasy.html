@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		
+		<title>WWG Fantasy</title>
+
+		<link rel="stylesheet" type="text/css" href="../cdn.datatables.net/r/bs-3.3.5/jq-2.1.4%2cdt-1.10.8/datatables.min.css"/>
+ 
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        
+		<script type="text/javascript" src="../cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3%2cdt-1.10.8/datatables.min.js"></script>
+		
+		
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		   $.ajax({
+			  url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSA7MapmaniHJhQnuXhejZo5j42X5k_cqOsIc5AXW0jOgO1MQADUxuiDnJvfqzA1M_y3JgZP1_Ai1J4/pub?output=csv",
+			 
+    type: 'GET',
+    crossDomain: true,
+    dataType: 'csv/text',
+    success: function() { alert("Success"); },
+    error: function() { alert('Failed!'); },
+    //beforeSend: setHeader
+			}).done(function() {
+			  console.log("done");
+			  console.log(this);
+			});
+		</script>
+		<style>
+		  .footer {
+				bottom: 0;
+				width: 100%;
+				height: 60px;
+				background-color: #f5f5f5;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div class="container">
+		<div class="row"><h1><span class="pull-left">WWG Database</span><div class="" style="">&nbsp;&nbsp;<button id="clear" type="button" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span> Clear All</button></div></h1>
+		</div>
+		<div class="row">
+		<h3>Player Statistics Search 
+		</h3> 
+		<div class="">
+		<div class="well input-group">
+		  <label style="margin-right: 10px;">Player Name</label>
+		  <span id="search_in">
+		    <div class="alert alert-info"><strong>Data is loading... Please wait.</strong></div>
+		  </span>
+		</div><!-- /input-group -->
+		
+		<br>
+		<!-- Total Result Pane -->
+		<div class="panel panel-primary">
+        <div id="" class="panel-heading">Total Stats: <span class="player_name"></span></div>
+		<table id="player_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Total Games Played</th>
+		<th>Win %</th>
+		<th>Wins</th><th>Losses</th> 
+		<th>Survival Rate</th> 
+		<th>Best Role</th> 
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="stats_row" class="ww_stat"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		</tbody>
+		</table>
+		</div> <!-- /Total Result Pane -->
+		<!-- Advanced stats -->
+		<div id="">
+		<!-- Human Result Pane -->
+		<div class="panel panel-default">
+        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/user.png" width="16" height="16" alt="h">  Human Stats: <span class="player_name"></span></div>
+		<table id="human_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Human Games Played</th>
+		<th>Human Win %</th>
+		<th>Wins</th>
+		<th>Losses</th> 
+		<th>Avg. Round Shot</th>
+		<th>Avg. Round Eaten</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="human_stats_row" class="ww_stat">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tbody>
+		</table>
+		</div> <!-- /Human Result Pane -->
+		
+		<!-- WOLF Result Pane -->
+		<div class="panel panel-default">
+        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/wolf.gif" width="16" height="16" alt="w"> Wolf Stats: <span class="player_name"></span></div>
+		<table id="wolf_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Wolf Games Played</th>
+		<th>Wolf Win %</th>
+		<th>Wins</th>
+		<th>Losses</th> 
+		<th>Avg. Round Shot</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="wolf_stats_row" class="ww_stat">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tbody>
+		</table>
+		</div> <!-- /WOLF Result Pane -->
+		
+		<!-- SEER Result Pane -->
+		<div class="panel panel-default">
+        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/wand.png" width="16" height="16" alt="s"> Seer Stats: <span class="player_name"></span></div>
+		<table id="seer_stats" class="table table-bordered"><thead>
+		<tr>
+		<th>Seer Games Played</th>
+		<th>Seer Win %</th>
+		<th>Wins</th>
+		<th>Losses</th> 
+		<th>Avg. Round Caught</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr id="seer_stats_row" class="ww_stat">
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tbody>
+		</table>
+		</div> <!-- /WOLF Result Pane -->
+		</div> <!-- /advanced stats  -->
+		</div>
+		
+		</div>
+		<div class="row">
+		<h3>Game Statistics</h3>
+		<table id="example" class="display" cellspacing="0" width="100%">
+		<thead>
+		<tr><th>Game No.</th><th>Player</th><th>Role</th><th>Fate</th><th>Round</th><th>Outcome</th><th>Total Game Rounds</th></tr></thead>
+		</tbody>
+		<tfoot><tr><th>Game No.</th><th>Player</th><th>Role</th><th>Fate</th><th>Round</th><th>Outcome</th><th>Total Game Rounds</th></tr></tfoot>
+		</table>
+		</div>
+		
+		</div>
+
+	</body>
+
+</html>
