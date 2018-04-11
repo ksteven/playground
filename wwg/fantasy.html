@@ -42,7 +42,7 @@
 		  }
 		  
 		  //return result; //JavaScript object
-		  return JSON.stringify(result); //JSON
+		  return result; //JSON
 		}
 		
 		function checkAndParseArray(line){
@@ -83,21 +83,19 @@
 		<div class="row"><h1><span class="pull-left">WWG Fantasy</span></h1>
 		</div>
 		<div class="row">
-		<h3>Player Statistics Search 
-		</h3> 
 		<div class="">
 		
 		<br>
 		<!-- Total Result Pane -->
 		<div class="panel panel-primary">
-        <div id="" class="panel-heading">Total Stats: <span class="player_name"></span></div>
+        <div id="" class="panel-heading">Team Scoreboard<span class="player_name"></span></div>
 		<table id="player_stats" class="table table-bordered"><thead>
 		<tr>
-		<th>Total Games Played</th>
-		<th>Win %</th>
-		<th>Wins</th><th>Losses</th> 
-		<th>Survival Rate</th> 
-		<th>Best Role</th> 
+		<th>Team Name</th>
+		<th>Owner</th>
+		<th>Posts</th>
+		<th>Rounds Survived</th> 
+		<th>Kills</th> 
 		</tr>
 		</thead>
 		<tbody>
@@ -109,7 +107,7 @@
 		<div id="">
 		<!-- Human Result Pane -->
 		<div class="panel panel-default">
-        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/user.png" width="16" height="16" alt="h">  Human Stats: <span class="player_name"></span></div>
+        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/user.png" width="16" height="16" alt="h">  Player Stats <span class="player_name"></span></div>
 		<table id="human_stats" class="table table-bordered"><thead>
 		<tr>
 		<th>Human Games Played</th>
