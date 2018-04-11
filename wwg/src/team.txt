@@ -1,0 +1,9 @@
+[
+{
+    "User":"HarryPutter",
+    "Team":[
+	  {"User": "bfft"}
+	],
+	"Timestamp": "Now"
+},
+]
