@@ -68,7 +68,7 @@
 			  for(var t of json){
 			     var row = "<tr class='score_row'>"
 				 +"<td>1</td>"
-				 +"<td>"+t.name+"</td><td>"+t.user+"</td><td>0</td><td>0</td><td>0</td><td><a class="btn">Show</a></td>"
+				 +"<td>"+t.name+"</td><td>"+t.user+"</td><td>0</td><td>0</td><td>0</td><td><a class='btn'>Show</a></td>"
 				 +"</tr>"
 				 outhtml = outhtml + row; 
 			  }
@@ -116,7 +116,7 @@
 		<div id="">
 		<!-- Human Result Pane -->
 		<div class="panel panel-default">
-        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/user.png" width="16" height="16" alt="h">  Player Stats <span class="player_name"></span></div>
+        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/user.png" width="16" height="16" alt="h">  Individual Performance Stats <span class="player_name"></span></div>
 		<table id="human_stats" class="table table-bordered"><thead>
 		<tr>
 		<th>Human Games Played</th>
@@ -141,6 +141,7 @@
 		</div> <!-- /Human Result Pane -->
 		
 		<!-- WOLF Result Pane -->
+		<h3>Rosters</h3>
 		<div class="panel panel-default">
         <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/wolf.gif" width="16" height="16" alt="w"> Wolf Stats: <span class="player_name"></span></div>
 		<table id="wolf_stats" class="table table-bordered"><thead>
@@ -164,44 +165,7 @@
 		</table>
 		</div> <!-- /WOLF Result Pane -->
 		
-		<!-- SEER Result Pane -->
-		<div class="panel panel-default">
-        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/wand.png" width="16" height="16" alt="s"> Seer Stats: <span class="player_name"></span></div>
-		<table id="seer_stats" class="table table-bordered"><thead>
-		<tr>
-		<th>Seer Games Played</th>
-		<th>Seer Win %</th>
-		<th>Wins</th>
-		<th>Losses</th> 
-		<th>Avg. Round Caught</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr id="seer_stats_row" class="ww_stat">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		</tr>
-		</tbody>
-		</table>
-		</div> <!-- /WOLF Result Pane -->
-		</div> <!-- /advanced stats  -->
-		</div>
-		
-		</div>
-		<div class="row">
-		<h3>Game Statistics</h3>
-		<table id="example" class="display" cellspacing="0" width="100%">
-		<thead>
-		<tr><th>Game No.</th><th>Player</th><th>Role</th><th>Fate</th><th>Round</th><th>Outcome</th><th>Total Game Rounds</th></tr></thead>
-		</tbody>
-		<tfoot><tr><th>Game No.</th><th>Player</th><th>Role</th><th>Fate</th><th>Round</th><th>Outcome</th><th>Total Game Rounds</th></tr></tfoot>
-		</table>
-		</div>
-		
-		</div>
+
 
 	</body>
 
