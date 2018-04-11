@@ -68,11 +68,37 @@
 			  for(var t of json){
 			     var row = "<tr class='score_row'>"
 				 +"<td>1</td>"
-				 +"<td>"+t.name+"</td><td>"+t.user+"</td><td>0</td><td>0</td><td>0</td><td><a class='btn'>Show</a></td>"
+				 +"<td>"+t.name+"</td><td>"+t.user+"</td><td>0</td><td>0</td><td>0</td><td><a href='#"+t.user+"'  class='btn btn-primary'>Show</a></td>"
 				 +"</tr>"
 				 outhtml = outhtml + row; 
+				 buildRosterTable(t);
 			  }
 			  $("#score_table").html(outhtml);
+			}
+			
+			function buildRosterTable(team){
+			   console.log('team', team);
+			   var rosterhtml = '<div class="panel panel-default">'
+			+'<div id="" class="panel-heading">'
+			+ team.name + '<span class="player_name">' + t.user + '</span></div>'
+			+'<table class="table table-bordered"><thead>'
+			+'<tr>'
+			+'<th>Player Name</th>'
+			+'<th>Posts</th>'
+			+'<th>Rounds Survived</th>'
+			+'<th>Kills</th> '
+			+'<th>Score total</th>'
+			+'</tr>'
+			+'</thead>'
+			+'<tbody>'
+			+'<tr class="roster_stat">';
+			for(p of team.team){
+			   rosterhtml = rosterhtml + '<td>'+p+'</td>';
+			}
+			
+			rosterhtml = rosterhtml + '</tr></tbody></table></div>';
+			   
+			 $("#rosters").append(rosterhtml);
 			}
 		</script>
 		<style>
@@ -119,12 +145,12 @@
         <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/user.png" width="16" height="16" alt="h">  Individual Performance Stats <span class="player_name"></span></div>
 		<table id="human_stats" class="table table-bordered"><thead>
 		<tr>
-		<th>Human Games Played</th>
-		<th>Human Win %</th>
-		<th>Wins</th>
-		<th>Losses</th> 
-		<th>Avg. Round Shot</th>
-		<th>Avg. Round Eaten</th>
+		<th>Player Name</th>
+		<th>Posts</th>
+		<th>Rounds Survived</th>
+		<th>Kills</th> 
+		<th># of Teams</th>
+		<th>Score total</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -142,29 +168,31 @@
 		
 		<!-- WOLF Result Pane -->
 		<h3>Rosters</h3>
-		<div class="panel panel-default">
-        <div id="" class="panel-heading"><img src="http://www.braingle.com/games/werewolf/images/wolf.gif" width="16" height="16" alt="w"> Wolf Stats: <span class="player_name"></span></div>
-		<table id="wolf_stats" class="table table-bordered"><thead>
-		<tr>
-		<th>Wolf Games Played</th>
-		<th>Wolf Win %</th>
-		<th>Wins</th>
-		<th>Losses</th> 
-		<th>Avg. Round Shot</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr id="wolf_stats_row" class="ww_stat">
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		</tr>
-		</tbody>
-		</table>
-		</div> <!-- /WOLF Result Pane -->
-		
+		<span id="rosters">
+			<div class="panel panel-default">
+			<div id="" class="panel-heading">
+			Team Name <span class="player_name">Username</span></div>
+			<table class="table table-bordered"><thead>
+			<tr>
+			<th>Player Name</th>
+			<th>Posts</th>
+			<th>Rounds Survived</th>
+			<th>Kills</th> 
+			<th>Score total</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr id="wolf_stats_row" class="ww_stat">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			</tbody>
+			</table>
+			</div> <!-- /WOLF Result Pane -->
+		</span>
 
 
 	</body>
