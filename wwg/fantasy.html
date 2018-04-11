@@ -17,15 +17,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
 		
 		<script type="text/javascript" charset="utf-8">
+		 //utility function
+		 function csvJSON(csv){
+
+		  var lines=csv.split("\n");
+
+		  var result = [];
+
+		  var headers=lines[0].split(",");
+
+		  for(var i=1;i<lines.length;i++){
+
+			  var obj = {};
+			  var currentline=lines[i].split(",");
+
+			  for(var j=0;j<headers.length;j++){
+				  obj[headers[j]] = currentline[j];
+			  }
+
+			  result.push(obj);
+
+		  }
+		  
+		  //return result; //JavaScript object
+		  return JSON.stringify(result); //JSON
+		}
+		 
+		 //end utility 
 		   $.ajax({
 			  url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSA7MapmaniHJhQnuXhejZo5j42X5k_cqOsIc5AXW0jOgO1MQADUxuiDnJvfqzA1M_y3JgZP1_Ai1J4/pub?output=csv",
 			 
-    type: 'GET',
-    crossDomain: true,
-    dataType: 'text',
-    success: function(d) { alert("Success"); console.log(d); console.log(d.responseText); },
-    error: function(e) { console.log('Error', e); },
-    //beforeSend: setHeader
+			type: 'GET',
+			crossDomain: true,
+			dataType: 'text',
+			success: function(d) { alert("Success"); console.log(d); console.log(csvJSON(d.responseText)); },
+			error: function(e) { console.log('Error', e); },
+			//beforeSend: setHeader
 			});
 		</script>
 		<style>
