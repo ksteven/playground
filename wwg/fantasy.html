@@ -62,10 +62,16 @@
 			
 			function buildTables(data){
 			  var json = csvJSON(data);
+			  var outhtml = "";
 			  console.log(json);
 			  
-			  //build table 
-			  var html = '<h3>Player 1:</h3>';
+			  for(var t in json){
+			     var row = "<tr  class='score_row'>"
+				 +"<td>"+json["name"]+"</td><td>"+json["user"]+"</td><td>0</td><td>0</td><td>0</td>"
+				 +"</tr>"
+				 outhtml = outhtml + row; 
+			  }
+			  $("#score_table").html(outhtml);
 			}
 		</script>
 		<style>
@@ -98,8 +104,8 @@
 		<th>Kills</th> 
 		</tr>
 		</thead>
-		<tbody>
-		<tr id="stats_row" class="ww_stat"><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tbody id="score_table">
+		
 		</tbody>
 		</table>
 		</div> <!-- /Total Result Pane -->
