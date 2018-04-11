@@ -65,10 +65,10 @@
 			  var outhtml = "";
 			  console.log(json);
 			  
-			  for(var t in json){
+			  for(var t of json){
 			     var row = "<tr class='score_row'>"
 				 +"<td>1</td>"
-				 +"<td>"+json.name+"</td><td>"+json.user+"</td><td>0</td><td>0</td><td>0</td><td></td>"
+				 +"<td>"+t.name+"</td><td>"+t.user+"</td><td>0</td><td>0</td><td>0</td><td><a class="btn">Show</a></td>"
 				 +"</tr>"
 				 outhtml = outhtml + row; 
 			  }
@@ -104,6 +104,7 @@
 		<th>Posts</th>
 		<th>Rounds Survived</th> 
 		<th>Kills</th> 
+		<th>Team</th> 
 		</tr>
 		</thead>
 		<tbody id="score_table">
