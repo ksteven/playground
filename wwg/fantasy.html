@@ -50,10 +50,18 @@
 			type: 'GET',
 			crossDomain: true,
 			dataType: 'text',
-			success: function(d) { alert("Success"); console.log(d); console.log(csvJSON(d.responseText)); },
+			success: function(d) { console.log(d); buildTables(d); },
 			error: function(e) { console.log('Error', e); },
 			//beforeSend: setHeader
 			});
+			
+			function buildTables(data){
+			  var json = csvJSON(data);
+			  console.log(json);
+			  
+			  //build table 
+			  var html = '<h3>Player 1:</h3>';
+			}
 		</script>
 		<style>
 		  .footer {
@@ -67,18 +75,12 @@
 	</head>
 	<body>
 		<div class="container">
-		<div class="row"><h1><span class="pull-left">WWG Database</span><div class="" style="">&nbsp;&nbsp;<button id="clear" type="button" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span> Clear All</button></div></h1>
+		<div class="row"><h1><span class="pull-left">WWG Fantasy</span></h1>
 		</div>
 		<div class="row">
 		<h3>Player Statistics Search 
 		</h3> 
 		<div class="">
-		<div class="well input-group">
-		  <label style="margin-right: 10px;">Player Name</label>
-		  <span id="search_in">
-		    <div class="alert alert-info"><strong>Data is loading... Please wait.</strong></div>
-		  </span>
-		</div><!-- /input-group -->
 		
 		<br>
 		<!-- Total Result Pane -->
