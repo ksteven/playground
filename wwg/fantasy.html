@@ -66,8 +66,9 @@
 			  console.log(json);
 			  
 			  for(var t in json){
-			     var row = "<tr  class='score_row'>"
-				 +"<td>"+json["name"]+"</td><td>"+json["user"]+"</td><td>0</td><td>0</td><td>0</td>"
+			     var row = "<tr class='score_row'>"
+				 +"<td>1</td>"
+				 +"<td>"+json.name+"</td><td>"+json.user+"</td><td>0</td><td>0</td><td>0</td><td></td>"
 				 +"</tr>"
 				 outhtml = outhtml + row; 
 			  }
@@ -97,6 +98,7 @@
         <div id="" class="panel-heading">Team Scoreboard<span class="player_name"></span></div>
 		<table id="player_stats" class="table table-bordered"><thead>
 		<tr>
+		<th>Rank </th>
 		<th>Team Name</th>
 		<th>Owner</th>
 		<th>Posts</th>
