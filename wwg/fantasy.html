@@ -23,12 +23,9 @@
     type: 'GET',
     crossDomain: true,
     dataType: 'csv/text',
-    success: function(d) { alert("Success"); console.log(d); },
-    error: function(e) { alert('Failed!'); console.log(e); },
+    success: function(d) { alert("Success"); console.log(d); console.log(d.responseText); },
+    error: function(e) { console.log('Error', e); },
     //beforeSend: setHeader
-			}).done(function() {
-			  console.log("done");
-			  console.log(this);
 			});
 		</script>
 		<style>
