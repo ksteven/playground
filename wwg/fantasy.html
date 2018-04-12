@@ -25,12 +25,12 @@
 		  var result = [];
 		  
 		  //\s|"
-		  var headers=lines[0].replaceAll('\s|"','').split(",");
+		  var headers=lines[0].replace('\s|"','').split(",");
 
 		  for(var i=1;i<lines.length;i++){
 
 			  var obj = {};
-			  var currentline=lines[i].split(',"')[0].replaceAll('\s|"','').split(",");
+			  var currentline=lines[i].split(',"')[0].replace('\s|"','').split(",");
 
 			  for(var j=0;j<headers.length-1;j++){
 				  obj[headers[j]] = currentline[j];
