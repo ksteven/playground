@@ -96,7 +96,9 @@
 			+'<tbody>';
 			
 			for(p of team.team){
+			   if(p && p.length > 0){
 			   rosterhtml = rosterhtml +'<tr class="roster_stat"><td>'+p+'</td><td>0</td>0<td>0</td><td>0</td></tr>';
+			   }
 			}
 			
 			rosterhtml = rosterhtml + '</tbody></table></div>';
