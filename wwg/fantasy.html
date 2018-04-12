@@ -23,13 +23,14 @@
 		  var lines=csv.split("\n");
 
 		  var result = [];
-
-		  var headers=lines[0].split(",");
+		  
+		  //\s|"
+		  var headers=lines[0].replaceAll('\s|"','').split(",");
 
 		  for(var i=1;i<lines.length;i++){
 
 			  var obj = {};
-			  var currentline=lines[i].split(',"')[0].split(",");
+			  var currentline=lines[i].split(',"')[0].replaceAll('\s|"','').split(",");
 
 			  for(var j=0;j<headers.length-1;j++){
 				  obj[headers[j]] = currentline[j];
@@ -92,7 +93,7 @@
 			+'</thead>'
 			+'<tbody>'
 			+'<tr class="roster_stat">';
-			for(p of team."team"){
+			for(p of team.team){
 			   rosterhtml = rosterhtml + '<td>'+p+'</td>';
 			}
 			
