@@ -25,7 +25,7 @@
 		  var result = [];
 		  
 		  //\s|"
-		  var headers=lines[0].replace('\s|"','').split(",");
+		  var headers=lines[0].split(",");
 
 		  for(var i=1;i<lines.length;i++){
 
@@ -36,7 +36,8 @@
 				  obj[headers[j]] = currentline[j];
 			  }
 			  // add the array 
-			  obj[headers[headers.length-1]] = lines[i].split(',"')[1].split(",");
+			  var header = headers[headers.length-1].replace('"','');
+			  obj[header] = lines[i].split(',"')[1].split(",");
 
 			  result.push(obj);
 
