@@ -36,9 +36,10 @@
 				  obj[headers[j]] = currentline[j];
 			  }
 			  // add the array 
-			  var header = headers[headers.length-1].replace('"','');
-			  obj[header] = lines[i].split(',"')[1].split(",");
-
+			  // var header = headers[headers.length-1].replace('"','');
+			  // console.log(header);
+			  obj.team = lines[i].split(',"')[1].split(",");
+			  
 			  result.push(obj);
 
 		  }
