@@ -62,6 +62,8 @@
                             <label class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-4">
                                 <input class="player_stat form-control" id="h_name" type="text">
+								
+						<input id="h_id" type="hidden">
                             </div>
                         </div>
                         <!-- /input-group -->
@@ -139,7 +141,8 @@
                         <!-- /input-group -->
                         <div class="form-group">
                             <div class="offset-sm-2 col-md-10">
-                                <button id="save" type="button" class="btn btn-info">Save</button>
+							  <button id="save" type="button" class="btn btn-info">Create</button>
+                                <button id="update" type="button" class="btn btn-info">Update</button>
                             </div>
                         </div>
                     </form>
@@ -194,8 +197,10 @@
 	   "columnDefs": [ {
             "targets": -1,
             "data": null,
-            "defaultContent": "<div class='btn-group btn-group-sm'><button class='btn load btn-info'><i class='fa fa-pencil'></i></button> <button class='btn btn-danger'> <i class='fa fa-times'></i></button></div>"
+            "defaultContent": "<div class='btn-group btn-group-sm'><button class='btn load btn-info' onclick='editRow(this)'><i class='fa fa-pencil'></i></button> <button class='btn btn-danger'> <i class='fa fa-times'></i></button></div>"
         } ]});
+		
+	   players.store("players");
 	   loadTable();
 	   
 	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
@@ -221,20 +226,21 @@
 	   };
 	
 	 function loadTable(){
-	   players.store("players");
+	   console.log("do load");
 	   table.clear().draw();
 	   if(players){
 	     players().order("name").each(function (player) {
+		 console.log("player to add ", player);
                         /*var row = "<tr><td>"+player.name+"</td><td>"+player.health+"</td><td>"+player.stamina
 				+"</td><td>"+player.agility+"</td><td>"+player.handcraft+"</td><td>"+player.navigation
 				+"</td><td>"+player.intelligence+"</td><td>"+player.shooting+"</td><td>"+player.strength
 				+"</td><td>"+player.social+"</td><td>"+player.stealth+"</td><td><button class='btn load'>UPDATE</button></td></tr>";
                         $('#char_table > tbody:last-child').append(row);
                     });*/
-		table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+		var rowNode = table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
 				,player.intelligence,player.shooting,player.strength
-				,player.social,player.stealth, ]);
-		 
+				,player.social,player.stealth, ]).draw().node();
+		 $( rowNode ).attr( 'data-id', player.id );
 		 /*for(var c in playarr){
 		    var player = playarr[c];
 			
@@ -251,16 +257,21 @@
 	   }
 			table.draw();
 	  }
-	   
-	   $('.load').click(function(){
-	     var tr = $(this).parents('tr');
-		 
+	  
+	  function editRow(e){
+	     var tr = $(e).parents('tr');
+		 console.log(tr);
+		 var id = $(tr).data('id');
+		 console.log("got id", id);
+		 $("#h_id").val(id); 
 		 $(tr).children('td').each(function(index){
 		   var tdval = $(this).html();
 		   $(".player_stat").eq(index).val(tdval); 
 		 });
 		 $(".player_stat").change();
-	   });
+	  }
+	    
+	   // $('.load').on("click", editRow );
 	   
 	   $('#save').click(function(){
 	       /*var players = localStorage.getItem('rpg_chars');
@@ -285,10 +296,39 @@
 		   console.log(players);
 		   localStorage.setItem('rpg_chars', JSON.stringify(players));*/
 		   players.insert(player);
-		   table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+		   var rowNode = table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
 				,player.intelligence,player.shooting,player.strength
-				,player.social,player.stealth, ]);
+				,player.social,player.stealth, ]).draw().node();
+		   $( rowNode ).attr( 'data-id', newItemId );
 		   table.draw();
+	   });
+	   
+	   $('#update').click(function(){
+	       /*var players = localStorage.getItem('rpg_chars');
+		   if(players){
+			 players = JSON.parse(players); 
+		   }else{
+			 players = new Array();
+		   };*/
+		   // console.log();
+		   var Id = parseInt($("#h_id").val());
+		   console.log("UPDate for ", Id);
+		   var player_stats = $(".player_stat").map(function() { return this.value; }).get();
+		   console.log(player_stats);
+		   var player = createPlayer(Id, player_stats[0], player_stats[1], player_stats[2], player_stats[3], player_stats[4]
+		   , player_stats[5], player_stats[6], player_stats[7] , player_stats[8], player_stats[9], player_stats[10]);
+		   
+		   /*players.push(player);
+		   console.log(players);
+		   localStorage.setItem('rpg_chars', JSON.stringify(players));*/
+		   // players({id:Id}).remove();
+		   players({id:Id}).update(player);
+		   /*var rowNode = table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+				,player.intelligence,player.shooting,player.strength
+				,player.social,player.stealth, ]).draw().node();*/
+		   // $( rowNode ).attr( 'data-id', newItemId );
+		   table.clear().draw();
+		   loadTable();
 	   });
 	   
 	   $(".player_stat").change(function(){
