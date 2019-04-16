@@ -1,149 +1,157 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		
-		<title>Player Rater</title>
-
-
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
-       
- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
-
-		
-		
-	</head>
-	<body>
-	<div class="container">
-		<div class="row"><h1><span class="pull-left">RPG Simulator</span></h1>
-		</div>
-		<div class="row">
-		<div class=" col-md-6">
-		  <h3>Human Simulator</h3>
-		   <form id="sim_form" class="well form-horizontal">
-			<!--Health, Stamina, Agility, Handicraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth-->
-			 
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Name</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" id="h_name" type="text" />
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Health</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" placeholder="50" max="100" value="50" type="number" />
-			  <input id="h_health" type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label class="col-sm-2 control-label">Stamina</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input  type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Agility</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/>  
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Handcraft</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Navigation</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Intelligence</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Shooting</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Strength</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			 <label  class="col-sm-2 control-label" >Social</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->
-			<div class=" form-group">
-			  <label  class="col-sm-2 control-label" >Stealth</label>
-			  <div class="col-sm-10">
-			  <input class="human_stat" min="0" max="100" value="50" type="number" />
-			  <input type="checkbox"/> 
-			  </div>
-			</div><!-- /input-group -->	
-			<div class=" form-group">
-			  <label style="color:red"  class="col-sm-2 control-label">Total</label>
-			  <div class="col-sm-10">
-			  <input id="total" type="number" value="500" disabled />
-			  </div>
-			</div><!-- /input-group -->	
-			<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-			<button id="save" type="button" class="btn btn-info">Save</button>
-			<button id="calculate" type="button" class="btn btn-primary">Calculate</button> 
-			</div>
-			</div>
-		  </form>
-		</div> <!-- /col --> 
-		<div class=" col-md-6">
-		 <h3>Results Pane</h3>
-		 <div id="results" class="alert alert-info">
-		  <strong>Select checkboxes next to abilities to test. Results will appear here.</strong>
-		 </div>
-		</div>
-		</div> <!-- /row --> 
-		<div class="row">
-		<table id="char_table" class="table table-striped">
-		 <thead>
-		   <th>Character Name</th>
-		   <th>Health</th>
-		   <th>Stamina </th>
-		   <th>Agility</th>
-		   <th>Handcraft</th>
-		   <th>Navigation </th>
-		   <th>Intelligence</th>
-		   <th>Shooting</th>
-		   <th>Strength</th> 
-		   <th>Social</th>
-		   <th>Stealth</th>
-		   <th>Action</th>
-		 </thead>
-		 <tbody>
-		 </tbody>
-		</table>
-		<button class="btn btn-danger pull-right" onClick="if(confirm('Sure?'))localStorage.clear();">Delete All</button>
-		</div>
-	</div>	<!-- /row --> 
-	
-	</body>
+    
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Player Rater</title>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css">
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class="row">
+                <h1><span class="float-left">RPG Simulator</span></h1>
+            </div>
+            <div class="row">
+                <div class=" col-lg-6">
+                     <h3>Human Simulator</h3>
+                    <form id="sim_form" class="card bg-light card-body mb-3 ">
+                        <!--Health, Stamina, Agility, Handicraft, Navigation, Intelligence, Shooting
+                        , Strength, Social, Stealth-->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Name</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" id="h_name" type="text">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Health</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" placeholder="50" value="50"
+                                type="number">
+                                <input id="h_health" type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Stamina</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Agility</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Handcraft</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Navigation</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Intelligence</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Shooting</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Strength</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Social</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label class="col-md-2 col-form-label">Stealth</label>
+                            <div class="col-md-10">
+                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group">
+                            <label style="color:red" class="col-md-2 col-form-label">Total</label>
+                            <div class="col-md-10">
+                                <input id="total" type="number" value="500" disabled>
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="form-group">
+                            <div class="offset-sm-2 col-md-10">
+                                <button id="save" type="button" class="btn btn-info">Save</button>
+                                <button id="calculate" type="button" class="btn btn-primary">Calculate</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /col -->
+                <div class=" col-lg-6">
+                     <h3>Results Pane</h3>
+                    <div id="results" class="alert alert-info"> <strong>Select checkboxes next to abilities to test. Results will appear here.</strong>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+            <div class="row">
+                <table id="char_table" class="table table-striped">
+                    <thead>
+                        <th>Character Name</th>
+                        <th>Health</th>
+                        <th>Stamina</th>
+                        <th>Agility</th>
+                        <th>Handcraft</th>
+                        <th>Navigation</th>
+                        <th>Intelligence</th>
+                        <th>Shooting</th>
+                        <th>Strength</th>
+                        <th>Social</th>
+                        <th>Stealth</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button class="btn btn-danger float-right" onclick="if(confirm(&apos;Sure?&apos;))localStorage.clear();">Delete All</button>
+            </div>
+        </div>
+        <!-- /row -->
+    </body>
 	<script>
 	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
 	   function createCharacter(Name, Health, Stamina, Agility, Handcraft
