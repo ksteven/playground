@@ -150,7 +150,7 @@
                 <table id="char_table" class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Character Name</th>
+                            <th>Player Name</th>
                             <th>Health</th>
                             <th>Stamina</th>
                             <th>Agility</th>
@@ -183,12 +183,16 @@
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+	<script src="https://github.com/typicaljoe/taffydb/raw/master/taffy.js"></script>
 	<script>
+	
+	   var players = TAFFY(); // localStorage.getItem('rpg_chars');
+	   
 	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
-	   function createCharacter(Name, Health, Stamina, Agility, Handcraft
+	   function createPlayer(Name, Health, Stamina, Agility, Handcraft
 	   , Navigation, Intelligence, Shooting , Strength, Social, Stealth)
 	   {  
-	      var newcharacter = {
+	      var newplayer = {
 		    name: Name,
 		    health: Health,
 			stamina: Stamina,
@@ -202,23 +206,21 @@
 			stealth: Stealth
 		  };
 	       
-		   return newcharacter; 
+		   return newplayer; 
 	   };
 	
-	   var characters = localStorage.getItem('rpg_chars');
-	   
-	   if(characters){
-	     characters = JSON.parse(characters); 
+	   if(players){
+	     playarr = players().get();
 		 
-		 for(var c in characters){
-		    var character = characters[c];
+		 for(var c in playarr){
+		    var player = playarr[c];
 			
-			if(character && !jQuery.isEmptyObject(character)){
+			if(player && !jQuery.isEmptyObject(player)){
 			    //insert tr 
-				var row = "<tr><td>"+character.name+"</td><td>"+character.health+"</td><td>"+character.stamina
-				+"</td><td>"+character.agility+"</td><td>"+character.handcraft+"</td><td>"+character.navigation
-				+"</td><td>"+character.intelligence+"</td><td>"+character.shooting+"</td><td>"+character.strength
-				+"</td><td>"+character.social+"</td><td>"+character.stealth+"</td><td><button class='btn load'>LOAD</button></td></tr>";
+				var row = "<tr><td>"+player.name+"</td><td>"+player.health+"</td><td>"+player.stamina
+				+"</td><td>"+player.agility+"</td><td>"+player.handcraft+"</td><td>"+player.navigation
+				+"</td><td>"+player.intelligence+"</td><td>"+player.shooting+"</td><td>"+player.strength
+				+"</td><td>"+player.social+"</td><td>"+player.stealth+"</td><td><button class='btn load'>LOAD</button></td></tr>";
 				
 				$('#char_table > tbody:last-child').append(row);
 			};
@@ -236,21 +238,22 @@
 	   });
 	   
 	   $('#save').click(function(){
-	       var characters = localStorage.getItem('rpg_chars');
-		   if(characters){
-			 characters = JSON.parse(characters); 
+	       /*var players = localStorage.getItem('rpg_chars');
+		   if(players){
+			 players = JSON.parse(players); 
 		   }else{
-			 characters = new Array();
-		   };
+			 players = new Array();
+		   };*/
 		   
 		   var human_stats = $(".human_stat").map(function() { return this.value; }).get();
 		   console.log(human_stats);
-		   var character = createCharacter(human_stats[0], human_stats[1], human_stats[2], human_stats[3], human_stats[4]
+		   var player = createPlayer(human_stats[0], human_stats[1], human_stats[2], human_stats[3], human_stats[4]
 		   , human_stats[5], human_stats[6], human_stats[7] , human_stats[8], human_stats[9], human_stats[10]);
 		   
-		   characters.push(character);
-		   console.log(characters);
-		   localStorage.setItem('rpg_chars', JSON.stringify(characters));
+		   /*players.push(player);
+		   console.log(players);
+		   localStorage.setItem('rpg_chars', JSON.stringify(players));*/
+		   players.insert(player);
 		   location.reload();
 	   });
 	   
