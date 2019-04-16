@@ -61,19 +61,19 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" id="h_name" type="text">
+                                <input class="player_stat form-control" id="h_name" type="text">
                             </div>
                         </div>
                         <!-- /input-group -->
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Health</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" placeholder="50"
+                                <input class="player_stat form-control" min="0" max="100" placeholder="50"
                                 value="50" type="number">
                             </div>
                             <label class="col-sm-2 col-form-label">Stamina</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                         </div>
@@ -81,12 +81,12 @@
                             <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Agility</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                             <label class="col-sm-2 col-form-label">HC</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                         </div>
@@ -94,12 +94,12 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Nav</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                             <label class="col-sm-2 col-form-label">Intelligence</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                         </div>
@@ -107,12 +107,12 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Shooting</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                             <label class="col-sm-2 col-form-label">Shooting</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                         </div>
@@ -120,12 +120,12 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Social</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                             <label class="col-sm-2 col-form-label">Stealth</label>
                             <div class="col-sm-4">
-                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
                                 
                             </div>
                         </div>
@@ -256,9 +256,9 @@
 		 
 		 $(tr).children('td').each(function(index){
 		   var tdval = $(this).html();
-		   $(".human_stat").eq(index).val(tdval); 
+		   $(".player_stat").eq(index).val(tdval); 
 		 });
-		 $(".human_stat").change();
+		 $(".player_stat").change();
 	   });
 	   
 	   $('#save').click(function(){
@@ -269,10 +269,10 @@
 			 players = new Array();
 		   };*/
 		   console.log();
-		   var human_stats = $(".human_stat").map(function() { return this.value; }).get();
-		   console.log(human_stats);
-		   var player = createPlayer(human_stats[0], human_stats[1], human_stats[2], human_stats[3], human_stats[4]
-		   , human_stats[5], human_stats[6], human_stats[7] , human_stats[8], human_stats[9], human_stats[10]);
+		   var player_stats = $(".player_stat").map(function() { return this.value; }).get();
+		   console.log(player_stats);
+		   var player = createPlayer(player_stats[0], player_stats[1], player_stats[2], player_stats[3], player_stats[4]
+		   , player_stats[5], player_stats[6], player_stats[7] , player_stats[8], player_stats[9], player_stats[10]);
 		   
 		   /*players.push(player);
 		   console.log(players);
@@ -284,13 +284,13 @@
 		   table.draw();
 	   });
 	   
-	   $(".human_stat").change(function(){
+	   $(".player_stat").change(function(){
 	      
-		  var human_stats = $("input.human_stat[type='number']").map(function() { return this.value; }).get();
+		  var player_stats = $("input.player_stat[type='number']").map(function() { return this.value; }).get();
 		  var sum = 0;
 		  
-		  for(var h in human_stats){
-		    var val = parseInt(human_stats[h]);
+		  for(var h in player_stats){
+		    var val = parseInt(player_stats[h]);
 			if(val > 0){
 			   sum= sum+ val;
 			};
