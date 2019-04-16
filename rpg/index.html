@@ -197,7 +197,7 @@
 	   "columnDefs": [ {
             "targets": -1,
             "data": null,
-            "defaultContent": "<div class='btn-group btn-group-sm'><button class='btn load btn-info' onclick='editRow(this)'><i class='fa fa-pencil'></i></button> <button class='btn btn-danger'> <i class='fa fa-times'></i></button></div>"
+            "defaultContent": "<div class='btn-group btn-group-sm'><button class='btn load btn-info' onclick='editRow(this)'><i class='fa fa-pencil'></i></button> <button class='btn btn-danger'  onclick='removeRow(this)'> <i class='fa fa-times'></i></button></div>"
         } ]});
 		
 	   players.store("players");
@@ -269,6 +269,14 @@
 		   $(".player_stat").eq(index).val(tdval); 
 		 });
 		 $(".player_stat").change();
+	  }
+	  
+	  function removeRow(e){
+	     var tr = $(e).parents('tr');
+		 console.log(tr);
+		 var Id = $(tr).data('id');
+		 players({id:Id}).remove();
+		 loadTable();
 	  }
 	    
 	   // $('.load').on("click", editRow );
