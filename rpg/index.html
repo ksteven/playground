@@ -199,10 +199,11 @@
 	   loadTable();
 	   
 	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
-	   function createPlayer(Name, Health, Stamina, Agility, Handcraft
+	   function createPlayer(Id, Name, Health, Stamina, Agility, Handcraft
 	   , Navigation, Intelligence, Shooting , Strength, Social, Stealth)
 	   {  
 	      var newplayer = {
+		    id: Id,
 		    name: Name,
 		    health: Health,
 			stamina: Stamina,
@@ -268,10 +269,16 @@
 		   }else{
 			 players = new Array();
 		   };*/
-		   console.log();
+		   // console.log();
+		   var newItemId = 0;
+		   if(players().get().length > 0){
+				var highestId = players().max("id");
+                            //New item's id is one more.
+                newItemId = highestId + 1;
+		   }
 		   var player_stats = $(".player_stat").map(function() { return this.value; }).get();
 		   console.log(player_stats);
-		   var player = createPlayer(player_stats[0], player_stats[1], player_stats[2], player_stats[3], player_stats[4]
+		   var player = createPlayer(newItemId, player_stats[0], player_stats[1], player_stats[2], player_stats[3], player_stats[4]
 		   , player_stats[5], player_stats[6], player_stats[7] , player_stats[8], player_stats[9], player_stats[10]);
 		   
 		   /*players.push(player);
