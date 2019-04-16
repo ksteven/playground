@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   </head>
 
   <body>
@@ -147,7 +148,7 @@
             </div>
             <!-- /row -->
             <div class="row">
-                <table id="char_table" class="table table-striped">
+                <table id="play_table" class="table table-striped">
                     <thead>
                         <tr>
                             <th>Player Name</th>
@@ -188,6 +189,15 @@
 	
 	   var players = TAFFY(); // localStorage.getItem('rpg_chars');
 	   
+	   // players.store("players"); // starts storing records in local storage
+	   var table = $("#play_table").DataTable({
+	   "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button class='btn load btn-info'>UPDATE</button> <button class='btn btn-danger'>DELETE <i class='fa fa-times'></i></button>"
+        } ]});
+	   loadTable();
+	   
 	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
 	   function createPlayer(Name, Health, Stamina, Agility, Handcraft
 	   , Navigation, Intelligence, Shooting , Strength, Social, Stealth)
@@ -209,10 +219,22 @@
 		   return newplayer; 
 	   };
 	
+	 function loadTable(){
+	   players.store("players");
+	   table.clear().draw();
 	   if(players){
-	     playarr = players().get();
+	     players().order("name").each(function (player) {
+                        /*var row = "<tr><td>"+player.name+"</td><td>"+player.health+"</td><td>"+player.stamina
+				+"</td><td>"+player.agility+"</td><td>"+player.handcraft+"</td><td>"+player.navigation
+				+"</td><td>"+player.intelligence+"</td><td>"+player.shooting+"</td><td>"+player.strength
+				+"</td><td>"+player.social+"</td><td>"+player.stealth+"</td><td><button class='btn load'>UPDATE</button></td></tr>";
+                        $('#char_table > tbody:last-child').append(row);
+                    });*/
+		table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+				,player.intelligence,player.shooting,player.strength
+				,player.social,player.stealth, ]);
 		 
-		 for(var c in playarr){
+		 /*for(var c in playarr){
 		    var player = playarr[c];
 			
 			if(player && !jQuery.isEmptyObject(player)){
@@ -223,9 +245,11 @@
 				+"</td><td>"+player.social+"</td><td>"+player.stealth+"</td><td><button class='btn load'>LOAD</button></td></tr>";
 				
 				$('#char_table > tbody:last-child').append(row);
-			};
-		 };
-	   };
+			};*/
+		 });
+	   }
+			table.draw();
+	  }
 	   
 	   $('.load').click(function(){
 	     var tr = $(this).parents('tr');
@@ -244,7 +268,7 @@
 		   }else{
 			 players = new Array();
 		   };*/
-		   
+		   console.log();
 		   var human_stats = $(".human_stat").map(function() { return this.value; }).get();
 		   console.log(human_stats);
 		   var player = createPlayer(human_stats[0], human_stats[1], human_stats[2], human_stats[3], human_stats[4]
@@ -254,43 +278,10 @@
 		   console.log(players);
 		   localStorage.setItem('rpg_chars', JSON.stringify(players));*/
 		   players.insert(player);
-		   location.reload();
-	   });
-	   
-	   $('#calculate').click(function(){
-	      var isSuccessful = true; 
-		  var alertReturn = "";
-	      
-		  $('#sim_form').find("input:checked").each(function(){
-		      var label = $(this).parent().siblings(".control-label").text(); 
-		      var checkedVal = $(this).siblings("input[type='number']").val(); 
-			  var random = Math.floor((Math.random() * 100) + 1);
-			  var diff = 0;
-			  diff = checkedVal - random;
-			  
-			  if(random > checkedVal){ //this failed 
-			    isSuccessful = false; 
-			    alertReturn = alertReturn + ""+label+ " with score "+checkedVal+ " failed due to result "+random 
-				+ ". Difference is <strong>"+diff+"</strong> <br/>";
-			  }else{ //this succeeds  
-			     alertReturn = alertReturn + " "+label+ " with score "+checkedVal+ " succeeded with result "+random 
-				 + ". Difference is <strong>"+diff+"</strong> <br/>";
-			  }
-		   });
-		   
-		   if(isSuccessful && alertReturn.length  > 1){
-		      alertReturn = "<strong>Action Successful!</strong> <br/>" + alertReturn;
-			  $('#results').removeClass('alert-info');
-			  $('#results').removeClass('alert-danger');
-			  $('#results').addClass('alert-success');
-		   }else{
-		      alertReturn = "<strong>Action Failed!</strong> <br/>" + alertReturn;
-			  $('#results').removeClass('alert-info');
-			  $('#results').removeClass('alert-success');
-			  $('#results').addClass('alert-danger');
-		   };
-		   
-		   $('#results').html(alertReturn);
+		   table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+				,player.intelligence,player.shooting,player.strength
+				,player.social,player.stealth, ]);
+		   table.draw();
 	   });
 	   
 	   $(".human_stat").change(function(){
