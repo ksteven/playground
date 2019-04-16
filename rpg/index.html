@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!doctype html>
 <html>
     
     <head>
@@ -21,15 +21,15 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Name</label>
                             <div class="col-md-10">
-                                <input class="human_stat" id="h_name" type="text">
+                                <input class="human_stat form-control" id="h_name" type="text">
                             </div>
                         </div>
                         <!-- /input-group -->
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Health</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" placeholder="50" value="50"
-                                type="number">
+                                <input class="human_stat form-control" min="0" max="100" placeholder="50"
+                                value="50" type="number">
                                 <input id="h_health" type="checkbox">
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Stamina</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Agility</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Handcraft</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Navigation</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Intelligence</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Shooting</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Strength</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Social</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                         <div class=" form-group">
                             <label class="col-md-2 col-form-label">Stealth</label>
                             <div class="col-md-10">
-                                <input class="human_stat" min="0" max="100" value="50" type="number">
+                                <input class="human_stat form-control" min="0" max="100" value="50" type="number">
                                 <input type="checkbox">
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                         <div class=" form-group">
                             <label style="color:red" class="col-md-2 col-form-label">Total</label>
                             <div class="col-md-10">
-                                <input id="total" type="number" value="500" disabled>
+                                <input id="total" type="number" value="500" disabled class="form-control">
                             </div>
                         </div>
                         <!-- /input-group -->
@@ -132,18 +132,20 @@
             <div class="row">
                 <table id="char_table" class="table table-striped">
                     <thead>
-                        <th>Character Name</th>
-                        <th>Health</th>
-                        <th>Stamina</th>
-                        <th>Agility</th>
-                        <th>Handcraft</th>
-                        <th>Navigation</th>
-                        <th>Intelligence</th>
-                        <th>Shooting</th>
-                        <th>Strength</th>
-                        <th>Social</th>
-                        <th>Stealth</th>
-                        <th>Action</th>
+                        <tr>
+                            <th>Character Name</th>
+                            <th>Health</th>
+                            <th>Stamina</th>
+                            <th>Agility</th>
+                            <th>Handcraft</th>
+                            <th>Navigation</th>
+                            <th>Intelligence</th>
+                            <th>Shooting</th>
+                            <th>Strength</th>
+                            <th>Social</th>
+                            <th>Stealth</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -152,6 +154,7 @@
         </div>
         <!-- /row -->
     </body>
+
 	<script>
 	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
 	   function createCharacter(Name, Health, Stamina, Agility, Handcraft
