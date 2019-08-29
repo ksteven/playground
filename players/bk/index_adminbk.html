@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
+     integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+
+    <title>Player Rating DB</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="/">Player Rating DB</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                        
+                        <li class="nav-item">
+                        <a href="#" class="nav-link">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+
+      <div class="container">
+         <div class="row">
+            </div>
+            <div class="row">
+                <div class=" col">
+                    <form id="sim_form" class="card bg-light card-body mb-3 ">
+                        <!--Health, Stamina, Agility, Handicraft, Navigation, Intelligence, Shooting
+                        , Strength, Social, Stealth-->
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" id="h_name" type="text">
+								
+						<input id="h_id" type="hidden">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Health</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" placeholder="50"
+                                value="50" type="number">
+                            </div>
+                            <label class="col-sm-2 col-form-label">Stamina</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                            <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Agility</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                            <label class="col-sm-2 col-form-label">HC</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Nav</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                            <label class="col-sm-2 col-form-label">Intelligence</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Shooting</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                            <label class="col-sm-2 col-form-label">Shooting</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Social</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                            <label class="col-sm-2 col-form-label">Stealth</label>
+                            <div class="col-sm-4">
+                                <input class="player_stat form-control" min="0" max="100" value="50" type="number">
+                                
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class=" form-group row">
+                            <label style="color:red" class="col-sm-2 col-form-label">Total</label>
+                            <div class="col-sm-20">
+                                <input id="total" type="number" value="500" disabled class="form-control">
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="form-group">
+                            <div class="offset-sm-2 col-md-10">
+							  <button id="save" type="button" class="btn btn-info">Create</button>
+                                <button id="update" type="button" class="btn btn-info">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /col -->
+            </div>
+            <!-- /row -->
+            <div class="row">
+                <table id="play_table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Player Name</th>
+                            <th>Health</th>
+                            <th>Stamina</th>
+                            <th>Agility</th>
+                            <th>Handcraft</th>
+                            <th>Navigation</th>
+                            <th>Intelligence</th>
+                            <th>Shooting</th>
+                            <th>Strength</th>
+                            <th>Social</th>
+                            <th>Stealth</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button class="btn btn-danger float-right" onclick="if(confirm(&apos;Sure?&apos;))localStorage.clear();">Delete All</button>
+            </div>
+        </div>
+        <!-- /row -->
+      </div>
+
+    </main><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+	<script src="js/taffy.js"></script>
+	<script>
+	
+	   var players = TAFFY(); // localStorage.getItem('rpg_chars');
+	   
+	   // players.store("players"); // starts storing records in local storage
+	   var table = $("#play_table").DataTable({
+	   "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<div class='btn-group btn-group-sm'><button class='btn load btn-info' onclick='editRow(this)'><i class='fa fa-pencil'></i></button> <button class='btn btn-danger'  onclick='removeRow(this)'> <i class='fa fa-times'></i></button></div>"
+        } ]});
+		
+	   players.store("players");
+	   loadTable();
+	   
+	   //Health, Stamina, Agility, Handcraft, Navigation, Intelligence, Shooting , Strength, Social, Stealth
+	   function createPlayer(Id, Name, Health, Stamina, Agility, Handcraft
+	   , Navigation, Intelligence, Shooting , Strength, Social, Stealth)
+	   {  
+	      var newplayer = {
+		    id: Id,
+		    name: Name,
+		    health: Health,
+			stamina: Stamina,
+			agility: Agility,
+			handcraft: Handcraft,
+			navigation: Navigation,
+			intelligence: Intelligence,
+			shooting: Shooting,
+			strength: Strength,
+			social: Social,
+			stealth: Stealth
+		  };
+	       
+		   return newplayer; 
+	   };
+	
+	 function loadTable(){
+	   console.log("do load");
+	   table.clear().draw();
+	   if(players){
+	     players().order("name").each(function (player) {
+		 console.log("player to add ", player);
+                        /*var row = "<tr><td>"+player.name+"</td><td>"+player.health+"</td><td>"+player.stamina
+				+"</td><td>"+player.agility+"</td><td>"+player.handcraft+"</td><td>"+player.navigation
+				+"</td><td>"+player.intelligence+"</td><td>"+player.shooting+"</td><td>"+player.strength
+				+"</td><td>"+player.social+"</td><td>"+player.stealth+"</td><td><button class='btn load'>UPDATE</button></td></tr>";
+                        $('#char_table > tbody:last-child').append(row);
+                    });*/
+		var rowNode = table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+				,player.intelligence,player.shooting,player.strength
+				,player.social,player.stealth, ]).draw().node();
+		 $( rowNode ).attr( 'data-id', player.id );
+		 /*for(var c in playarr){
+		    var player = playarr[c];
+			
+			if(player && !jQuery.isEmptyObject(player)){
+			    //insert tr 
+				var row = "<tr><td>"+player.name+"</td><td>"+player.health+"</td><td>"+player.stamina
+				+"</td><td>"+player.agility+"</td><td>"+player.handcraft+"</td><td>"+player.navigation
+				+"</td><td>"+player.intelligence+"</td><td>"+player.shooting+"</td><td>"+player.strength
+				+"</td><td>"+player.social+"</td><td>"+player.stealth+"</td><td><button class='btn load'>LOAD</button></td></tr>";
+				
+				$('#char_table > tbody:last-child').append(row);
+			};*/
+		 });
+	   }
+			table.draw();
+	  }
+	  
+	  function editRow(e){
+	     var tr = $(e).parents('tr');
+		 console.log(tr);
+		 var id = $(tr).data('id');
+		 console.log("got id", id);
+		 $("#h_id").val(id); 
+		 $(tr).children('td').each(function(index){
+		   var tdval = $(this).html();
+		   $(".player_stat").eq(index).val(tdval); 
+		 });
+		 $(".player_stat").change();
+	  }
+	  
+	  function removeRow(e){
+	     var tr = $(e).parents('tr');
+		 console.log(tr);
+		 var Id = $(tr).data('id');
+		 players({id:Id}).remove();
+		 loadTable();
+	  }
+	  
+	   $('input[type="number"]').change(function (e) {
+	      console.log($(this).val());
+	   });
+	    
+	   // $('.load').on("click", editRow );
+	   
+	   $('#save').click(function(){
+	       /*var players = localStorage.getItem('rpg_chars');
+		   if(players){
+			 players = JSON.parse(players); 
+		   }else{
+			 players = new Array();
+		   };*/
+		   // console.log();
+		   var newItemId = 0;
+		   if(players().get().length > 0){
+				var highestId = players().max("id");
+                            //New item's id is one more.
+                newItemId = highestId + 1;
+		   }
+		   var player_stats = $(".player_stat").map(function() { return this.value; }).get();
+		   console.log(player_stats);
+		   var player = createPlayer(newItemId, player_stats[0], player_stats[1], player_stats[2], player_stats[3], player_stats[4]
+		   , player_stats[5], player_stats[6], player_stats[7] , player_stats[8], player_stats[9], player_stats[10]);
+		   
+		   /*players.push(player);
+		   console.log(players);
+		   localStorage.setItem('rpg_chars', JSON.stringify(players));*/
+		   players.insert(player);
+		   var rowNode = table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+				,player.intelligence,player.shooting,player.strength
+				,player.social,player.stealth, ]).draw().node();
+		   $( rowNode ).attr( 'data-id', newItemId );
+		   table.draw();
+	   });
+	   
+	   $('#update').click(function(){
+	       /*var players = localStorage.getItem('rpg_chars');
+		   if(players){
+			 players = JSON.parse(players); 
+		   }else{
+			 players = new Array();
+		   };*/
+		   // console.log();
+		   var Id = parseInt($("#h_id").val());
+		   console.log("UPDate for ", Id);
+		   var player_stats = $(".player_stat").map(function() { return this.value; }).get();
+		   console.log(player_stats);
+		   var player = createPlayer(Id, player_stats[0], player_stats[1], player_stats[2], player_stats[3], player_stats[4]
+		   , player_stats[5], player_stats[6], player_stats[7] , player_stats[8], player_stats[9], player_stats[10]);
+		   
+		   /*players.push(player);
+		   console.log(players);
+		   localStorage.setItem('rpg_chars', JSON.stringify(players));*/
+		   // players({id:Id}).remove();
+		   players({id:Id}).update(player);
+		   /*var rowNode = table.row.add([player.name, player.health, player.stamina, player.agility,player.handcraft, player.navigation
+				,player.intelligence,player.shooting,player.strength
+				,player.social,player.stealth, ]).draw().node();*/
+		   // $( rowNode ).attr( 'data-id', newItemId );
+		   table.clear().draw();
+		   loadTable();
+	   });
+	   
+	   $(".player_stat").change(function(){
+	      
+		  var player_stats = $("input.player_stat[type='number']").map(function() { return this.value; }).get();
+		  var sum = 0;
+		  
+		  for(var h in player_stats){
+		    var val = parseInt(player_stats[h]);
+			if(val > 0){
+			   sum= sum+ val;
+			};
+		  };
+		  
+	     $('#total').val(sum);
+	   });
+	</script> 
+  </body>
+</html>
