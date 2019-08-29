@@ -17,6 +17,7 @@ $(document).ready(function () {
       { "data": "Winner" },
       { "data": "Game Rounds" },
     ]
-
   });
+  var friends = TAFFY("https://ksteven.github.io/playground/wwg2/js/data.txt");
+  console.log(friends);
 });
