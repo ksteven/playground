@@ -24,12 +24,14 @@ $(document).ready(function () {
         // `data` option, which defaults to the column being worked with, in
         // this case `data: 0`.
         "render": function (data, type, row) {
-          return data + ' (' + row[4] + ')';
+          if (row['Fate'] !== 'Survived')
+            return data + ' (' + (parseInt(row['Survived Rounds\n']) - 1) + ')';
+          else
+            return data;
         },
         "targets": 3
       },
       { "visible": false, "targets": [4] }
     ]
   });
-  console.log(friends);
 });
