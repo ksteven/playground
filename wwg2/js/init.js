@@ -14,10 +14,10 @@ $(document).ready(function () {
       { "data": "Player" },
       { "data": "Role" },
       { "data": "Fate" },
+      { "data": "Survived Rounds\n" },
       { "data": "Winner" },
       { "data": "Game Rounds" },
     ]
   });
-  var friends = TAFFY("https://ksteven.github.io/playground/wwg2/js/data.txt");
   console.log(friends);
 });
