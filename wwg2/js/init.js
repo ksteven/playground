@@ -12,10 +12,10 @@ $(document).ready(function () {
     "columns": [
       { "data": "Game #" },
       { "data": "Player" },
-      { "data": "Winner" },
+      { "data": "Role" },
       { "data": "Fate" },
+      { "data": "Winner" },
       { "data": "Game Rounds" },
-      { "data": "Role" }
     ]
 
   });
