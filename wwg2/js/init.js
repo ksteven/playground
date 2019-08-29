@@ -8,7 +8,7 @@
 
 $(document).ready(function () {
   $('#example').DataTable({
-    "ajax": 'data.txt',
+    "ajax": 'https://ksteven.github.io/playground/wwg2/js/data.txt',
     "columns": [
       { "data": "Game #" },
       { "data": "Player" },
