@@ -17,7 +17,7 @@ $(document).ready(function () {
     $('#autocomplete-input').autocomplete({
       data: player_map,
       onAutocomplete: function (data) {
-        console.log('got ', data);
+        // console.log('got ', data);
         table.column([1])
           .search(data ? '^' + data + '$' : '', true, false)
           .draw();
@@ -50,7 +50,7 @@ $(document).ready(function () {
     }).on("keyup", function (e) {
       if (e.keyCode == 13) {
         var instance = M.Autocomplete.getInstance($(this)[0]);
-        console.log(instance);
+        // console.log(instance);
         $('ul.autocomplete-content > li')[0].click();
         //M.toast({ html: 'You must select an autocomplete option to search.' })
       }
@@ -74,7 +74,7 @@ $(document).ready(function () {
       var seer_games = games_played.filter(function (player) {
         return player.Role === "Seer";
       });
-      console.log('human', human_games, 'wolf', wolf_games, 'seer_games', seer_games);
+      //console.log('human', human_games, 'wolf', wolf_games, 'seer_games', seer_games);
       // Games Played 	Win % 	Wins 	Losses 	Survival Rate 	Avg Round Killed
       var human_row = {};
       var wolf_row = {};
