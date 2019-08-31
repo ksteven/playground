@@ -137,6 +137,7 @@ $(document).ready(function () {
   function makeTable(jsonData) {
     return $('#example').DataTable({
       //"ajax": 'https://ksteven.github.io/playground/wwg2/js/data.txt',
+      "dom": '<f<t>ip>',
       "initComplete": function (settings, json) {
         $("#table_loader_container").addClass('hide');
         $("#db_container").removeClass('hide');
