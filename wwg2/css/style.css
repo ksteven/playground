@@ -12,3 +12,9 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+#player_stats > tbody > tr:last-child { font-weight: bold; }
+
+td > a {
+  text-decoration: underline;
+}
