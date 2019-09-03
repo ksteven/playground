@@ -25,7 +25,7 @@ $(document).ready(function () {
           .draw();
         // Games Played 	Win % 	Wins 	Losses 	Survival Rate 	Avg Round Killed
 
-        $("#stat_container").removeClass('hide');
+        $(".stat_container").removeClass('hide');
         $(".player_name").text(data);
         $('#player_stats').DataTable({
           "destroy": true,
@@ -63,7 +63,7 @@ $(document).ready(function () {
         table.column([1])
           .search(data ? '^' + data + '$' : '', true, false)
           .draw();
-        $("#stat_container").addClass('hide');
+        $(".stat_container").addClass('hide');
       }
     });
     function calculateStats(playerName) {
