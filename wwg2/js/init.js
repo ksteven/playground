@@ -1,6 +1,7 @@
 $(document).ready(function () {
   const url = "https://ksteven.github.io/playground/wwg2/js/data.txt";
   var table;
+  var selected_player = "";
   $.getJSON(url, function (data) {
     //console.log(data);
     table = makeTable(data);
@@ -18,6 +19,7 @@ $(document).ready(function () {
       data: player_map,
       onAutocomplete: function (data) {
         // console.log('got ', data);
+        selected_player = data;
         table.column([1])
           .search(data ? '^' + data + '$' : '', true, false)
           .draw();
@@ -41,6 +43,7 @@ $(document).ready(function () {
             { "data": "losses" },
             { "data": "survivalrate" },
             { "data": "rdSurvived" },
+            { "data": "faterate" },
           ],
           "columnDefs": [
             { "visible": false, "targets": [0] }
@@ -56,10 +59,12 @@ $(document).ready(function () {
       }
     }).focusout(function () {
       var data = $(this).val();
-      table.column([1])
-        .search(data ? '^' + data + '$' : '', true, false)
-        .draw();
-      $("#stat_container").addClass('hide');
+      if (data !== selected_player) {
+        table.column([1])
+          .search(data ? '^' + data + '$' : '', true, false)
+          .draw();
+        $("#stat_container").addClass('hide');
+      }
     });
     function calculateStats(playerName) {
       var games_played = player_data.filter(function (player) {
@@ -120,6 +125,19 @@ $(document).ready(function () {
       })).toFixed(2);
       row.role = roleText;
       row.order = orderNo;
+      var peaten = "", pshot = "";
+      pshot = (((games_list.filter(function (player) {
+        return player.Fate === "Shot";
+      }).length) / row.gp) * 100).toFixed(2) + "%";
+
+      row.faterate = "Shot (" + pshot + ")";
+
+      if ($.trim(roleText) !== "Wolf") {
+        peaten = (((games_list.filter(function (player) {
+          return player.Fate === "Eaten";
+        }).length) / row.gp) * 100).toFixed(2) + "%";
+        row.faterate += "<br/>Eaten (" + peaten + ")";
+      }
     } else {
       row = {
         order: orderNo,
@@ -129,7 +147,8 @@ $(document).ready(function () {
         winpct: " - ",
         survivalrate: " - ",
         rdSurvived: " - ",
-        role: roleText
+        role: roleText,
+        faterate: " - "
       }
     }
     return row;
