@@ -39,14 +39,14 @@ $(document).ready(function () {
             { "data": "role" },
             { "data": "gp" },
             { "data": "winpct" },
-            { "data": "wins" },
-            { "data": "losses" },
+            //{ "data": "wins" },
+            //{ "data": "losses" },
             { "data": "survivalrate" },
-            { "data": "rdSurvived" },
             { "data": "faterate" },
+            { "data": "rdSurvived" },
           ],
           "columnDefs": [
-            { "visible": false, "targets": [0] }
+            { "visible": false, "targets": [0, 4] }
           ]
         });
       },
@@ -116,7 +116,8 @@ $(document).ready(function () {
             || (player.Role === "Seer" && $.trim(player.Winner) === "Humans")
       }).length;
       row.losses = row.gp - row.wins;
-      row.winpct = ((row.wins / row.gp) * 100).toFixed(2) + "%";
+      row.winpct = "W: " + row.wins + "<br/>L: " + row.losses + ""
+        + "<br/>(" + ((row.wins / row.gp) * 100).toFixed(2) + "%)"
       row.survivalrate = (((games_list.filter(function (player) {
         return player.Fate === "Survived";
       }).length) / row.gp) * 100).toFixed(2) + "%";
@@ -130,7 +131,8 @@ $(document).ready(function () {
         return player.Fate === "Shot";
       }).length) / row.gp) * 100).toFixed(2) + "%";
 
-      row.faterate = "Shot (" + pshot + ")";
+      row.faterate = "Survived (" + row.survivalrate + ")";
+      row.faterate += "<br/>Shot (" + pshot + ")";
 
       if ($.trim(roleText) !== "Wolf") {
         peaten = (((games_list.filter(function (player) {
