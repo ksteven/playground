@@ -43,31 +43,21 @@ for game in range(game_start, game_end+1):
             result = re.search(';round=(.*)#end', s)  # find round survived no.
             roundsurvived.append(result.group(1))  # add to array
 
+        gameresult = gameresult.split(" ")[1]
         for i in range(len(players)):  # prepare for JSON export
-            """ record = {
-                "gameno": gameno,
-                "gamerds": gamerds,
-                "gameresult": gameresult,
-                "player": players[i],
-                "role": roles[i],
-                "survivedrds": roundsurvived[i],
-                "fate": fate[i]
-            } 
-            {
-                "Game #": "3346",
-                "Player": "HarryPutter",
-                "Winner": "Werewolves ",
-                "Fate": "Eaten",
-                "Game Rounds": "5",
-                "Survived Rounds\n": "2",
-                "Role": "Seer"
-             }"""
+            role = roles[i]
+            roleList = {
+                "h": "Human",
+                "w": "Werewolf",
+                "s": "Seer",
+            }
+
             record = {
                 "Game #": gameno,
                 "Game Rounds": gamerds,
                 "Winner": gameresult,
                 "Player": players[i],
-                "Role": roles[i],
+                "Role": roleList.get(role),
                 "Survived Rounds\n": roundsurvived[i],
                 "Fate": fate[i]
             }
