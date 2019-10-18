@@ -47,7 +47,10 @@ $(document).ready(function () {
           ],
           "columnDefs": [
             { "visible": false, "targets": [0, 4] }
-          ]
+          ],
+          "initComplete": function () {
+            $('.tooltipped').tooltip();
+          }
         });
       },
     }).on("keyup", function (e) {
@@ -106,7 +109,7 @@ $(document).ready(function () {
   function statRowCalculator(row, games_list, winnerText, roleText, orderNo) {
 
     if (games_list.length > 0) {
-      let average = (array) => array.reduce((a, b) => a + b) / array.length;
+      let average = (array) => (array && array.length > 0) ? array.reduce((a, b) => a + b) / array.length : 0;
       row.gp = games_list.length;
       row.wins = games_list.filter(function (player) {
         if (winnerText !== "total")
@@ -118,27 +121,47 @@ $(document).ready(function () {
       row.losses = row.gp - row.wins;
       row.winpct = "W: " + row.wins + "<br/>L: " + row.losses + ""
         + "<br/>(" + ((row.wins / row.gp) * 100).toFixed(2) + "%)"
-      row.survivalrate = (((games_list.filter(function (player) {
-        return player.Fate === "Survived";
-      }).length) / row.gp) * 100).toFixed(2) + "%";
+      row.role = roleText;
+      row.order = orderNo;
       row.rdSurvived = average(games_list.map(function (game) {
         return parseInt(game["Survived Rounds\n"]) - 1; // get 1 less than round
       })).toFixed(2);
-      row.role = roleText;
-      row.order = orderNo;
-      var peaten = "", pshot = "";
-      pshot = (((games_list.filter(function (player) {
+
+      // fate calculations 
+      var pshot = "", avg_shot = 0, avg_survived = 0;
+
+      // <p class="tooltipped" data-position="top" data-tooltip="I am a tooltip"> </p>
+      //1. survived 
+      var games_survived = games_list.filter(function (player) {
+        return player.Fate === "Survived";
+      });
+      row.survivalrate = (((games_survived.length) / row.gp) * 100).toFixed(2) + "%";
+      avg_survived = average(games_survived.map(function (game) {
+        return parseInt(game["Survived Rounds\n"]) - 1; // get 1 less than round
+      })).toFixed(2);
+      row.faterate = '<span class="tooltipped" data-position="right" data-tooltip="Avg Round: ' + '' + avg_survived + '">  Survived - ' + row.survivalrate + '</span>';
+
+      //2. shot
+      var games_shot = games_list.filter(function (player) {
         return player.Fate === "Shot";
-      }).length) / row.gp) * 100).toFixed(2) + "%";
+      });
+      avg_shot = average(games_shot.map(function (game) {
+        return parseInt(game["Survived Rounds\n"]) - 1; // get 1 less than round
+      })).toFixed(2);
+      pshot = (((games_shot.length) / row.gp) * 100).toFixed(2) + "%";
+      row.faterate += "<br/>Shot - " + pshot + " (" + avg_shot + ")";
 
-      row.faterate = "Survived (" + row.survivalrate + ")";
-      row.faterate += "<br/>Shot (" + pshot + ")";
-
+      // 3. eaten
       if ($.trim(roleText) !== "Wolf") {
-        peaten = (((games_list.filter(function (player) {
+        var peaten, avg_eaten = 0;
+        var games_eaten = games_list.filter(function (player) {
           return player.Fate === "Eaten";
-        }).length) / row.gp) * 100).toFixed(2) + "%";
-        row.faterate += "<br/>Eaten (" + peaten + ")";
+        });
+        peaten = (((games_eaten.length) / row.gp) * 100).toFixed(2) + "%";
+        avg_eaten = average(games_eaten.map(function (game) {
+          return parseInt(game["Survived Rounds\n"]) - 1; // get 1 less than round
+        })).toFixed(2);
+        row.faterate += "<br/>Eaten - " + peaten + " (" + avg_eaten + ")";
       }
     } else {
       row = {

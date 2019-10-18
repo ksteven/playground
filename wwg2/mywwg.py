@@ -3,8 +3,8 @@ import urllib2
 import re
 from lxml import html
 
-game_start = 1  # start of games you want to get
-game_end = 528  # last game you want to get
+game_start = 3346  # start of games you want to get
+game_end = 3352  # last game you want to get
 
 records = []
 
@@ -44,7 +44,7 @@ for game in range(game_start, game_end+1):
             roundsurvived.append(result.group(1))  # add to array
 
         for i in range(len(players)):  # prepare for JSON export
-            record = {
+            """ record = {
                 "gameno": gameno,
                 "gamerds": gamerds,
                 "gameresult": gameresult,
@@ -52,6 +52,24 @@ for game in range(game_start, game_end+1):
                 "role": roles[i],
                 "survivedrds": roundsurvived[i],
                 "fate": fate[i]
+            } 
+            {
+                "Game #": "3346",
+                "Player": "HarryPutter",
+                "Winner": "Werewolves ",
+                "Fate": "Eaten",
+                "Game Rounds": "5",
+                "Survived Rounds\n": "2",
+                "Role": "Seer"
+             }"""
+            record = {
+                "Game #": gameno,
+                "Game Rounds": gamerds,
+                "Winner": gameresult,
+                "Player": players[i],
+                "Role": roles[i],
+                "Survived Rounds\n": roundsurvived[i],
+                "Fate": fate[i]
             }
             records.append(record)
     except:
