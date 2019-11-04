@@ -102,6 +102,7 @@ function doVLCopy() {
         player = players[p];
         countstr += "[color=" + colors[p] + "]" + player.name + " : " + player.num + "[/color]" + "\n";
     };
+    countstr = (countstr.length > 0) ? "\n \n" + "<b>Totals</b>" + "\n" + countstr : "";
     for (let v in votes) {
         let vote = votes[v];
         let voted_for = vote.split(" ")[3];
@@ -111,5 +112,5 @@ function doVLCopy() {
             }
         }
     }
-    return votes.join('\n') + "\n \n" + "<b>Totals</b>" + "\n" + countstr;
+    return votes.join('\n') + countstr;
 };
