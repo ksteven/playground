@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2
+// @version  2.1
 // @grant    none
-// @include        http://www.braingle.com/*
-// @include        https://www.braingle.com/*
+// @include        http://www.braingle.com/games/werewolf/game.php?id=*
+// @include        https://www.braingle.com/games/werewolf/game.php?id=*
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
 
