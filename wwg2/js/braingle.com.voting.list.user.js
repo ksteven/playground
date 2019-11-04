@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  1
+// @version  2
 // @grant    none
 // @include        http://www.braingle.com/*
 // @include        https://www.braingle.com/*
