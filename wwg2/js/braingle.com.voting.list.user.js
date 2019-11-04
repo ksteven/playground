@@ -105,7 +105,7 @@ function doVLCopy() {
     for (let v in votes) {
         let vote = votes[v];
         let voted_for = vote.split(" ")[3];
-        for (p in players) {
+        for (let p in players) {
             if (voted_for === players[p].name) { // add color
                 votes[v] = "[color=" + colors[p] + "]" + vote + "[/color]"
             }
