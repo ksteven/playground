@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.2.1
+// @version  2.2.2
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
@@ -12,6 +12,7 @@ const colors = ["red", "blue", "green", "orange", "purple", "brown", "yellow", "
 const doInitColors = true;
 
 // utility functions
+const $ = window.jQuery;
 const count = names => names.reduce((a, b) => ({
     ...a,
     [b]: (a[b] || 0) + 1
@@ -111,13 +112,13 @@ function doVLCopy() {
     let countHtml = "";
     for (let p in players) {
         let player = players[p];
-        countstr += "[color=" + colors[p] + "]" + player.name + " : " + player.num + "[/color]" + "\n";
+        countstr += "[color=" + colors[p] + "]" + player.name + " : " + player.num + "[/color] \n";
         if (!isHTML) {
             countHtml += '<span style="color:' + colors[p] + '">' + player.name + ' : ' + player.num + "</span> <br/>";
         };
     };
-    countstr = (countstr.length > 0) ? "\n \n" + "<b>Totals</b>" + "\n" + countstr : "";
-    countHtml = (countHtml.length > 0) ? "<br/>" + "<strong>Totals</strong> <br/>" + countHtml : "";
+    countstr = (countstr.length > 0) ? "\n \n <b>Totals</b> \n" + countstr : "";
+    countHtml = (countHtml.length > 0) ? "<br/><strong>Totals</strong> <br/>" + countHtml : "";
     let htmlvotes = votes;
     for (let v in votes) {
         let vote = votes[v];
