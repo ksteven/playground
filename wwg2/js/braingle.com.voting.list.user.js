@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.2
+// @version  2.2.0
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
