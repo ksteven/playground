@@ -1,18 +1,15 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.1
+// @version  2.2
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
 
-// add button
-if ($('input[name="vote"]').length > 0) { // check if active round
-    // console.log('active round, add button');
-    $('#main').find('.boxed_body > h2').eq(0).after('<p> <input id="doVLCopy" type="submit" value="Copy Voting List" class="button_primary t3"> <span id="result"></span></p>');
-};
+// Custom user settings
 const colors = ["red", "blue", "green", "orange", "purple", "brown", "yellow", "lime", "aqua", "lilac", "navy"]
+const doInitColors = true;
 
 // utility functions
 const count = names => names.reduce((a, b) => ({
@@ -52,34 +49,46 @@ function copyTextToClipboard(text, cb) {
         cb(false);
     });
 }
-// end utility functions 
+// end utility functions
 
-$("#doVLCopy").click(function () {
-    let vlList = doVLCopy();
-    console.log(vlList);
-    copyTextToClipboard(vlList, function (succ) {
-        if (succ) {
-            $("#result").html("Successfully copied!")
-            $("#result").css('color', 'green');
-        } else {
-            $("#result").html("You must copy manually")
-            $("#result").css('color', 'red');
-            $("#result").append('<br/><textarea  onClick="this.select();" rows="4" cols="50">' + vlList + '</textarea>');
-        };
+// on ready, just add color to html
+$(function () {
+    if (doInitColors) {
+        doVLCopy();
+    };
+    // add button
+    if ($('input[name="vote"]').length > 0) { // check if active round
+        $('#main').find('.boxed_body > h2').eq(0).after('<p> <input id="doVLCopy" type="submit" value="Copy Voting List" class="button_primary t3"> <span id="result"></span></p>');
+    };
+    $("#doVLCopy").click(function () {
+        let vlList = doVLCopy();
+        copyTextToClipboard(vlList, function (succ) {
+            if (succ) {
+                $("#result").html("Successfully copied!")
+                $("#result").css('color', 'green');
+            } else {
+                $("#result").html("You must copy manually")
+                $("#result").css('color', 'red');
+                $("#result").append('<br/><textarea  onClick="this.select();" rows="4" cols="50">' + vlList + '</textarea>');
+            };
+        });
     });
 });
 
+
+
 function doVLCopy() {
-    let div_html = $('#main').find('.boxed_body').html();
-    let splits = div_html.split("<br>");
-    let add_this = false;
+    let div_html = $('#main').find('.boxed_body').eq(0).html();
+    const isHTML = div_html.indexOf('span') > 0;
+    let splits = div_html.split("<br><br>")[1].split('<br>');
     let votes = [];
     let votes_for = [];
     for (let s in splits) {
-        if (splits[s].length === 0) { // only start/stop adding when we find a blank
-            add_this = !add_this;
-        }
-        if (add_this && splits[s].length > 0) {
+        if (splits[s].length > 0) {
+            let txtSplit = $(splits[s]).text();
+            if (txtSplit.length > 0) {
+                splits[s] = txtSplit;
+            };
             votes.push(splits[s]);
             let voted_for = splits[s].split(" ")[3];
             votes_for.push(voted_for);
@@ -98,19 +107,34 @@ function doVLCopy() {
         return parseInt(b.num) - parseInt(a.num);
     });
     let countstr = "";
+    let countHtml = "";
     for (let p in players) {
-        player = players[p];
+        let player = players[p];
         countstr += "[color=" + colors[p] + "]" + player.name + " : " + player.num + "[/color]" + "\n";
+        if (!isHTML) {
+            countHtml += '<span style="color:' + colors[p] + '">' + player.name + ' : ' + player.num + "</span> <br/>";
+        };
     };
     countstr = (countstr.length > 0) ? "\n \n" + "<b>Totals</b>" + "\n" + countstr : "";
+    countHtml = (countHtml.length > 0) ? "<br/>" + "<strong>Totals</strong> <br/>" + countHtml : "";
+    let htmlvotes = votes;
     for (let v in votes) {
         let vote = votes[v];
         let voted_for = vote.split(" ")[3];
         for (let p in players) {
             if (voted_for === players[p].name) { // add color
-                votes[v] = "[color=" + colors[p] + "]" + vote + "[/color]"
+                votes[v] = "[color=" + colors[p] + "]" + vote + "[/color]";
+                if (!isHTML) {
+                    htmlvotes[v] = '<span style="color:' + colors[p] + '">' + vote + '</span>';
+                }
             }
         }
     }
+    if (!isHTML) {
+        let votediv = $('#main').find('.boxed_body').eq(0).html();
+        let divparts = votediv.split('<br><br>');
+        divparts[1] = '<br/>' + htmlvotes.join('<br/>') + '<br/>' + countHtml;
+        $('#main').find('.boxed_body').eq(0).html(divparts.join('<br/>'));
+    };
     return votes.join('\n') + countstr;
 };
