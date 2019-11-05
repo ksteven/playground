@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.2.0
+// @version  2.2.1
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
@@ -53,11 +53,12 @@ function copyTextToClipboard(text, cb) {
 
 // on ready, just add color to html
 $(function () {
-    if (doInitColors) {
-        doVLCopy();
-    };
+    const isActive = $('input[name="vote"]').length > 0;
     // add button
-    if ($('input[name="vote"]').length > 0) { // check if active round
+    if (isActive) { // check if active round
+        if (doInitColors) {
+            doVLCopy();
+        };
         $('#main').find('.boxed_body > h2').eq(0).after('<p> <input id="doVLCopy" type="submit" value="Copy Voting List" class="button_primary t3"> <span id="result"></span></p>');
     };
     $("#doVLCopy").click(function () {
