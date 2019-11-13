@@ -6,6 +6,7 @@ $(document).ready(function () {
 
   $.getJSON(url, function (data) {
     //console.log(data);
+    var data = { "data": data };
     table = makeTable(data);
     if (player_stat) { // if individual playerstat is available 
       var player_data = data.data.sort(function (a, b) {
