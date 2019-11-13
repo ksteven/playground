@@ -82,10 +82,10 @@ $(document).ready(function () {
         return player.Role === "Human";
       });
       var wolf_games = games_played.filter(function (player) {
-        return player.Role === "Werewolf";
+        return player.Role === "Boss";
       });
       var seer_games = games_played.filter(function (player) {
-        return player.Role === "Seer";
+        return player.Role === "Rat";
       });
       //console.log('human', human_games, 'wolf', wolf_games, 'seer_games', seer_games);
       // Games Played 	Win % 	Wins 	Losses 	Survival Rate 	Avg Round Killed
@@ -220,7 +220,7 @@ $(document).ready(function () {
         { "data": "Role" },
         { "data": "Fate" },
         { "data": "Survived Rounds\n" },
-        { "data": "Winner" },
+        //{ "data": "Winner" },
         { "data": "Game Rounds" },
       ],
       "columnDefs": [
@@ -242,7 +242,7 @@ $(document).ready(function () {
           // `data` option, which defaults to the column being worked with, in
           // this case `data: 0`.
           "render": function (data, type, row) {
-            return '<a target="_blank" href="https://www.braingle.com/games/werewolf/game.php?id=' + data + '">' + data + '</a>';
+            return '<a target="_blank" href="https://www.braingle.com/games/wtb/game.php?id=' + data + '">' + data + '</a>';
           },
           "targets": 0
         }
