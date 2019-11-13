@@ -1,4 +1,4 @@
-var player_stat = false;
+var player_stat = true;
 $(document).ready(function () {
   const url = "https://ksteven.github.io/playground/wtb/js/data.txt";
   var table;
