@@ -4,7 +4,8 @@
 // @version      0.2
 // @description  set active players on ESPN
 // @author       You
-// @match        http*://*fantasy.espn.com/*
+// @match        http://*fantasy.espn.com/*
+// @match        https://*fantasy.espn.com/*
 // @grant        none
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
