@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ESPN Active Starter
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  set active players on ESPN
 // @author       You
 // @match        http://*fantasy.espn.com/*
@@ -22,7 +22,7 @@ var count = 0;
                 + '<button class="autob btn btn--custom roster-action-btn btn--alt btn--active" id="startW">Start Week</button>');
             $('#startW').click(function () {
                 count = 0;
-                times = 7;
+                times = 8;
                 $("tr").removeClass("cantmove");
                 $('.autob').hide();
                 setTimeout(function () { return setLineup(); }, 2000);
