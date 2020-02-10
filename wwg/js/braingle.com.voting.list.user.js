@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.3.0
+// @version  2.3.1
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
@@ -138,8 +138,14 @@ function doVLCopy() {
             countHtml += '<span style="color:' + colors[p] + '">' + player.name + ' : ' + player.num + "</span> <br/>";
         };
     };
+
     countstr = (countstr.length > 0) ? "\n \n <b>Totals</b> \n" + countstr : "";
     countHtml = (countHtml.length > 0) ? "<br/><strong>Totals</strong> <br/>" + countHtml : "";
+
+    let inactivesHtml = getInactives(voters).join(',');
+    let inactivesStr = inactivesHtml;
+    inactivesHtml = (inactivesHtml.length > 0) ? "<br/><strong>Inactives:</strong>" + inactivesHtml : "";
+    inactivesStr = (inactivesStr.length > 0) ? "\n<b>Inactives:</b>" + inactivesStr : "";
     let htmlvotes = votes;
     for (let v in votes) {
         let vote = votes[v];
@@ -159,5 +165,5 @@ function doVLCopy() {
         divparts[1] = '<br/>' + htmlvotes.join('<br/>') + '<br/>' + countHtml;
         $('#main').find('.boxed_body').eq(0).html(divparts.join('<br/>'));
     };
-    return votes.join('\n') + countstr + "\n Inactives" + getInactives(voters).join(',');
+    return votes.join('\n') + countstr + inactivesStr;
 };
