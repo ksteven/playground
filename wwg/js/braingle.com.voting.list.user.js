@@ -77,12 +77,32 @@ $(function () {
     });
 });
 
+function getInactives(voters) { // list of non-voters
+    // find list of living players first
+    try {
+        const inactive_players = [];
+        $('.boxed_table').find('tr').each(function () {
+            const tr = this;
+            const tds = $(tr).find("td");
+            const col_num = tds.length;
+            const player = $(tds[0]).text();
+            let isAlive = ("" + $(tds[col_num - 1]).html()).indexOf('accept') > 0;
+            if (isAlive && voters.indexOf(player) < 0) { // if player is alive AND not found in index of voters
+                inactive_players.push(player);
+            };
+        });
 
+        return inactive_players;
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 function doVLCopy() {
     let div_html = $('#main').find('.boxed_body').eq(0).html();
     const isHTML = div_html.indexOf('span') > 0;
     let splits = div_html.split("<br><br>")[1].split('<br>');
+    let voters = [];
     let votes = [];
     let votes_for = [];
     for (let s in splits) {
@@ -92,6 +112,7 @@ function doVLCopy() {
                 splits[s] = txtSplit;
             };
             votes.push(splits[s]);
+            voters.push(splits[s].split(" ")[0]);
             let voted_for = splits[s].split(" ")[3];
             votes_for.push(voted_for);
         }
