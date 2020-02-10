@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.2.5
+// @version  2.3.0
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
@@ -159,5 +159,5 @@ function doVLCopy() {
         divparts[1] = '<br/>' + htmlvotes.join('<br/>') + '<br/>' + countHtml;
         $('#main').find('.boxed_body').eq(0).html(divparts.join('<br/>'));
     };
-    return votes.join('\n') + countstr;
+    return votes.join('\n') + countstr + "\n Inactives" + getInactives(voters).join(',');
 };
