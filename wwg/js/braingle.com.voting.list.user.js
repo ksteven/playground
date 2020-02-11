@@ -142,10 +142,10 @@ function doVLCopy() {
     countstr = (countstr.length > 0) ? "\n \n <b>Totals</b> \n" + countstr : "";
     countHtml = (countHtml.length > 0) ? "<br/><strong>Totals</strong> <br/>" + countHtml : "";
 
-    let inactivesHtml = getInactives(voters).join(',');
+    let inactivesHtml = getInactives(voters).join(', ');
     let inactivesStr = inactivesHtml;
-    inactivesHtml = (inactivesHtml.length > 0) ? "<br/><strong>Inactives:</strong> " + inactivesHtml : "";
-    inactivesStr = (inactivesStr.length > 0) ? "\n<b>Inactives:</b> " + inactivesStr : "";
+    inactivesHtml = (inactivesHtml.length > 0) ? "<br/><strong>Non-voters/Inactives:</strong> " + inactivesHtml : "<br/>";
+    inactivesStr = (inactivesStr.length > 0) ? "\n<b>Non-voters/Inactives:</b> " + inactivesStr : "";
     let htmlvotes = votes;
     for (let v in votes) {
         let vote = votes[v];
