@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     Voting List Automate
-// @version  2.3.5
+// @version  2.3.6
 // @grant    none
 // @include        http://www.braingle.com/games/werewolf/game.php?id=*
 // @include        https://www.braingle.com/games/werewolf/game.php?id=*
@@ -144,7 +144,7 @@ function doVLCopy() {
 
     let inactivesHtml = getInactives(voters).join(', ');
     let inactivesStr = inactivesHtml;
-    inactivesHtml = (inactivesHtml.length > 0) ? "<br/><strong>Non-voters/Inactives:</strong> " + inactivesHtml : "<br/>";
+    inactivesHtml = (inactivesHtml.length > 0) ? "<br/><strong>Non-voters/Inactives:</strong> " + inactivesHtml : "<br/><br/>";
     inactivesStr = (inactivesStr.length > 0) ? "\n<b>Non-voters/Inactives:</b> " + inactivesStr : "";
     let htmlvotes = votes;
     for (let v in votes) {
