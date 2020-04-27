@@ -3,8 +3,8 @@ import urllib2
 import re
 from lxml import html
 
-game_start = 1  # start of games you want to get
-game_end = 3285  # last game you want to get
+game_start = 3285  # start of games you want to get
+game_end = 3304  # last game you want to get
 
 records = []
 
