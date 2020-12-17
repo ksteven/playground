@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ESPN Active Starter
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  set active players on ESPN
 // @author       You
 // @match        http://*fantasy.espn.com/*
@@ -18,8 +18,8 @@ var count = 0;
     function pageLoad() {
         return setTimeout(function () {
 
-            $('th[title="STARTERS"]').html('<button class="autob btn btn--custom roster-action-btn btn--alt btn--active" id="startD">Start Day</button>'
-                + '<button class="autob btn btn--custom roster-action-btn btn--alt btn--active" id="startW">Start Week</button>');
+            $('th[title="STARTERS"]').html('<button class="Button Button--alt Button--custom autob" id="startD">Start Day</button>'
+                + '<button class="Button Button--alt Button--custom autob" id="startW">Start Week</button>');
             $('#startW').click(function () {
                 count = 0;
                 times = 8;
@@ -64,11 +64,13 @@ var count = 0;
             }
         });
         openslots = [];
-        var table = $('td.v-top > div > table[aria-describedby="leftdescr"]');
+        var table = $('div.flex > table.Table');
+        var trs = $(table).find('tbody > tr');
         var players = [];
         var inactivePlayers = [];
         var slots = [];
-        $(table).find('tr').not('.Table2__header-row').each(function (row, elem) {
+        $(trs).each(function (row, elem) {
+            //console.log(elem);
             var isActive = ($(elem).find('a.pro-team-link').length > 0)
             var player_div = $(elem).find('.player__column')
             var player_name = $(player_div).attr('title');
@@ -80,6 +82,7 @@ var count = 0;
                 index: row,
             }
             if (player_name && player_name.indexOf(' ') > 0) {
+                //console.log(player_name);
                 //valid player
                 var player_elig = $(player_div).find('span.playerinfo__playerpos')[0].innerHTML;
                 var player = {
@@ -89,8 +92,9 @@ var count = 0;
                     'pos': pos,
                     'elig': player_elig.split(","),
                     'own': parseFloat($('.own').not('.header').eq(row).html()),
+                    'active': isActive,
                 };
-
+                //console.log(player);
                 if (isActive) {
                     players.push(player);
                 } else {
@@ -105,17 +109,20 @@ var count = 0;
                 }
             }
             slots.push(pos);
+            console.log(players);
+            console.log(slots);
         });
 
         // sort by own pct
         players.sort(function (a, b) { return b.own - a.own });
 
         // move all actives WHO ARE UTIL to OPEN slots
-        var utilActive = players.filter(elem => (elem.pos && elem.pos === 'UTIL' && !$($(table).find('tr').not('.Table2__header-row')[elem.num]).hasClass('cantmove')));
+        var utilActive = players.filter(elem => (elem.pos && elem.pos === 'UTIL' && !$($(table).find('tbody > tr')[elem.num]).hasClass('cantmove')));
+        console.log(utilActive);
         if (utilActive.length > 0) {
             $(utilActive).each(function (x, elem) {
                 var index = posInOpen(elem.elig, false);
-                var myrow = $(table).find('tr').not('.Table2__header-row')[index];
+                var myrow = $(trs)[index];
                 if (index > -1) {
                     var btn = $(elem.move_btn_div).find('button');
                     $(btn).click();
@@ -124,7 +131,7 @@ var count = 0;
                     return false;
                 } else {
                     // increment next -- cannot do this one
-                    myrow = $(table).find('tr').not('.Table2__header-row')[elem.num];
+                    myrow = $(trs)[elem.num];
                     $(myrow).addClass('cantmove');
                     setTimeout(function () { setLineup(); }, 2000);
                     return false;
@@ -145,7 +152,7 @@ var count = 0;
                 if (index > -1) {
                     var btn = $(elem.move_btn_div).find('button');
                     $(btn).click();
-                    var myrow = $(table).find('tr').not('.Table2__header-row')[index];
+                    var myrow = $(trs)[index];
                     $(myrow).find('button').click();
                     setTimeout(function () { setLineup(); }, 2000);
                     return false;
