@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ESPN Active Starter
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.50
 // @description  set active players on ESPN
 // @author       You
 // @match        http://*fantasy.espn.com/*
@@ -17,7 +17,6 @@ var count = 0;
 (function () {
     function pageLoad() {
         return setTimeout(function () {
-
             $('th[title="STARTERS"]').html('<button class="Button Button--alt Button--custom autob" id="startD">Start Day</button>'
                 + '<button class="Button Button--alt Button--custom autob" id="startW">Start Week</button>');
             $('#startW').click(function () {
@@ -50,9 +49,9 @@ var count = 0;
         }, 2000);
     };
 
-    $(window).on('click', function (e) {
-        pageLoad();
-    });
+    //  $(window).on('click', function (e) {
+    //   pageLoad();
+    //  });
 
     pageLoad();
 
@@ -70,7 +69,6 @@ var count = 0;
         var inactivePlayers = [];
         var slots = [];
         $(trs).each(function (row, elem) {
-            //console.log(elem);
             var isActive = ($(elem).find('a.pro-team-link').length > 0)
             var player_div = $(elem).find('.player__column')
             var player_name = $(player_div).attr('title');
@@ -82,7 +80,6 @@ var count = 0;
                 index: row,
             }
             if (player_name && player_name.indexOf(' ') > 0) {
-                //console.log(player_name);
                 //valid player
                 var player_elig = $(player_div).find('span.playerinfo__playerpos')[0].innerHTML;
                 var player = {
@@ -94,7 +91,6 @@ var count = 0;
                     'own': parseFloat($('.own').not('.header').eq(row).html()),
                     'active': isActive,
                 };
-                //console.log(player);
                 if (isActive) {
                     players.push(player);
                 } else {
@@ -109,8 +105,6 @@ var count = 0;
                 }
             }
             slots.push(pos);
-            console.log(players);
-            console.log(slots);
         });
 
         // sort by own pct
@@ -144,7 +138,7 @@ var count = 0;
                 count++;
                 $('.custom--day').eq($('.is-current').index('.custom--day') + 1).click();
                 return false;
-            } else if (count + 1 === times) {
+            } else if (count + 1 >= times) {
                 $(".autob").show();
             }
             $(benchedActive).each(function (x, elem) {
@@ -161,7 +155,7 @@ var count = 0;
                         count++;
                         $('.custom--day').eq($('.is-current').index('.custom--day') + 1).click();
                         return false;
-                    } else if (count + 1 === times) {
+                    } else if (count + 1 >= times) {
                         $(".autob").show();
                     }
                 }
