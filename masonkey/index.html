@@ -17,8 +17,8 @@
 </head>
 
 <body>
-  <nav class="blue darken-1" role="navigation">
-    <div class="nav-wrapper"><a id="logo-container" href="#" class="brand-logo">&nbsp;Site Tools Index</a>
+  <nav class="red darken-1" role="navigation">
+    <div class="nav-wrapper"><a id="logo-container" href="#" class="brand-logo">&nbsp;The Key</a>
   </nav>
 
   <div id="main" class="">
@@ -26,12 +26,32 @@
       <div class="row">
         <div class="col s12">
           <div class="card">
-            <input placeholder="Enter the word" />
+            <div class="card-content">
+              <image src="thekey.jpg" />
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Enter your word here
+              </span>
+              <input placeholder="Enter the word" id="field1" />
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Result
+              </span>
+              <span id="result"></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <footer>
+    <p>Source: <a href="https://grahamhancock.com/leedsm1/">https://grahamhancock.com/leedsm1/</a> (<a
+        href="https://archive.is/2og5Y">Archive</a>)</p>
+  </footer>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -40,5 +60,68 @@
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 </body>
+<script>
+  // generate letter values
+  let value = 1;
+  let letter_value = new Map();
+  let countdown = false;
+  for (var letter = 65; letter < 91; letter++) {
+    if (value % 7 === 0) {
+      countdown = !countdown;
+    }
+    var _char = String.fromCharCode(letter);
+    value = (value === 0) ? 1 : value;
+    letter_value.set(_char, value);
+    if (countdown) {
+      value--;
+    } else {
+      value++;
+    }
+  }
+  console.log(letter_value);
+
+  function forceKeyPressUppercase(e) {
+    var charInput = e.keyCode;
+    let thewords = "";
+    thewords = document.getElementById("field1").value;
+    if ((charInput >= 97) && (charInput <= 122)) { // lowercase
+      if (!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+        var newChar = charInput - 32;
+        var start = e.target.selectionStart;
+        var end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+        e.target.setSelectionRange(start + 1, start + 1);
+        e.preventDefault();
+        thewords = document.getElementById("field1").value;
+      }
+    } else if (e.key === "Backspace" || e.key === "Delete") {
+      thewords = thewords.slice(0, -1);
+    }
+
+    if (thewords.length > 0) {
+      //now do the calculation
+      let result = "";
+      console.log("the words...." + thewords);
+      let mywords = thewords.split(" ");
+      mywords.forEach(theword => {
+        let myletters = theword.split("");
+        let sum = 0;
+        myletters.forEach(mychar => {
+          let letter_val = letter_value.get(mychar);
+          sum += letter_val;
+        });
+        console.log("total val is", sum);
+        result = result + "<br/>" + "Total for <strong>" + theword + "</strong> is " + sum;
+        document.getElementById("result").innerHTML = result;
+      })
+    } else {
+      document.getElementById("result").innerHTML = "";
+    }
+  }
+
+  document.getElementById("field1").addEventListener("keypress", forceKeyPressUppercase, false);
+
+  document.getElementById("field1").addEventListener("keydown", forceKeyPressUppercase, false);
+</script>
 
 </html>
