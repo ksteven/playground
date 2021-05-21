@@ -84,18 +84,10 @@
     console.log("do it");
     var charInput = e.keyCode;
     let thewords = "";
-    //thewords = document.getElementById("field1").value;
-    if ((charInput >= 97) && (charInput <= 122)) { // lowercase
-      if (!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
-        var newChar = charInput - 32;
-        var start = e.target.selectionStart;
-        var end = e.target.selectionEnd;
-        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
-        e.target.setSelectionRange(start + 1, start + 1);
-        e.preventDefault();
-      }
-    }
+
     thewords = document.getElementById("field1").value;
+    // just in case
+    thewords = thewords.toUpperCase();
 
     if (thewords.length > 0) {
       //now do the calculation
@@ -108,8 +100,12 @@
         result = result + "<br/>" + " <b>" + theword + "</b>";
         myletters.forEach(mychar => {
           let letter_val = letter_value.get(mychar);
-          sum += letter_val;
-          result = result + "   " + "<sup>" + mychar + "</sup>&frasl;<sub>" + letter_val + "</sub>";///+ mychar + "(" + letter_val + ")";
+          if (letter_val) {
+            sum += letter_val;
+            result = result + "   " + "<sup>" + mychar + "</sup>&frasl;<sub>" + letter_val + "</sub>";///+ mychar + "(" + letter_val + ")";
+          } else if (!Number.isNaN(mychar)) {
+            sum += Number.parseInt(mychar);
+          }
         });
         result = result + "  = <b>" + sum + "</b>";
         document.getElementById("result").innerHTML = result;
