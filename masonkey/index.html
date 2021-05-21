@@ -32,7 +32,7 @@
           </div>
           <div class="card">
             <div class="card-content">
-              <span class="card-title">Enter your word here
+              <span class="card-title">Enter your word(s) here
               </span>
               <input placeholder="Enter the word" id="field1" />
             </div>
@@ -105,12 +105,13 @@
       mywords.forEach(theword => {
         let myletters = theword.split("");
         let sum = 0;
+        result = result + "<br/>" + " <b>" + theword + "</b>";
         myletters.forEach(mychar => {
           let letter_val = letter_value.get(mychar);
           sum += letter_val;
+          result = result + "   " + "<sup>" + mychar + "</sup>&frasl;<sub>" + letter_val + "</sub>";///+ mychar + "(" + letter_val + ")";
         });
-        console.log("total val is", sum);
-        result = result + "<br/>" + "Total for <strong>" + theword + "</strong> is " + sum;
+        result = result + "  = <b>" + sum + "</b>";
         document.getElementById("result").innerHTML = result;
       })
     } else {
