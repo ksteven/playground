@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ESPN Active Starter
-// @namespace    http://tampermonkey.net/
-// @version      0.50
+// @namespace    https://ksteven.github.io/playground/espn/espn.active.user.js
+// @version      0.51
 // @description  set active players on ESPN
 // @author       You
 // @match        http://*fantasy.espn.com/*
