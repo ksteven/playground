@@ -81,9 +81,10 @@
   console.log(letter_value);
 
   function forceKeyPressUppercase(e) {
+    console.log("do it");
     var charInput = e.keyCode;
     let thewords = "";
-    thewords = document.getElementById("field1").value;
+    //thewords = document.getElementById("field1").value;
     if ((charInput >= 97) && (charInput <= 122)) { // lowercase
       if (!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
         var newChar = charInput - 32;
@@ -92,11 +93,9 @@
         e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
         e.target.setSelectionRange(start + 1, start + 1);
         e.preventDefault();
-        thewords = document.getElementById("field1").value;
       }
-    } else if (e.key === "Backspace" || e.key === "Delete") {
-      thewords = thewords.slice(0, -1);
     }
+    thewords = document.getElementById("field1").value;
 
     if (thewords.length > 0) {
       //now do the calculation
@@ -121,7 +120,7 @@
 
   document.getElementById("field1").addEventListener("keypress", forceKeyPressUppercase, false);
 
-  document.getElementById("field1").addEventListener("keydown", forceKeyPressUppercase, false);
+  document.getElementById("field1").addEventListener("keyup", forceKeyPressUppercase, false);
 </script>
 
 </html>
