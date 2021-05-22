@@ -84,6 +84,7 @@
     console.log("do it");
     var charInput = e.keyCode;
     let thewords = "";
+    let sumArray = [];
 
     thewords = document.getElementById("field1").value;
     // just in case
@@ -95,21 +96,29 @@
       console.log("the words...." + thewords);
       let mywords = thewords.split(" ");
       mywords.forEach(theword => {
-        let myletters = theword.split("");
-        let sum = 0;
-        result = result + "<br/>" + " <b>" + theword + "</b>";
-        myletters.forEach(mychar => {
-          let letter_val = letter_value.get(mychar);
-          if (letter_val) {
-            sum += letter_val;
-            result = result + "   " + "<sup>" + mychar + "</sup>&frasl;<sub>" + letter_val + "</sub>";///+ mychar + "(" + letter_val + ")";
-          } else if (!Number.isNaN(mychar)) {
-            sum += Number.parseInt(mychar);
-          }
-        });
-        result = result + "  = <b>" + sum + "</b>";
-        document.getElementById("result").innerHTML = result;
-      })
+        if (theword.trim().length > 0) {
+          let myletters = theword.split("");
+          let sum = 0;
+          result = result + "<br/>" + " <b>" + theword + "</b>";
+          myletters.forEach(mychar => {
+            let letter_val = letter_value.get(mychar);
+            if (letter_val > 0) {
+              sum += letter_val;
+              result = result + "   " + "<sup>" + mychar + "</sup>&frasl;<sub>" + letter_val + "</sub>";///+ mychar + "(" + letter_val + ")";
+            } else if (!Number.isNaN(mychar)) {
+              sum += Number.parseInt(mychar);
+            }
+          });
+          sumArray.push(sum);
+          result = result + "  = <b>" + sum + "</b>";
+        }
+      });
+      // add all the sums
+      let sum = sumArray.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      result = result + '<br/> <SPAN STYLE="text-decoration:overline; font-weight:bold">TOTAL: ' + sum + '</span>';
+      document.getElementById("result").innerHTML = result;
     } else {
       document.getElementById("result").innerHTML = "";
     }
