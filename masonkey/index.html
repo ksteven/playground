@@ -27,11 +27,6 @@
         <div class="col s12">
           <div class="card">
             <div class="card-content">
-              <image src="thekey.jpg" />
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-content">
               <span class="card-title">Enter your word(s) here
               </span>
               <input placeholder="Enter the word" id="field1" />
@@ -102,11 +97,11 @@
           result = result + "<br/>" + " <b>" + theword + "</b>";
           myletters.forEach(mychar => {
             let letter_val = letter_value.get(mychar);
-            if (letter_val > 0) {
+            if (!isNaN(letter_val) && letter_val > 0) {
               sum += letter_val;
               result = result + "   " + "<sup>" + mychar + "</sup>&frasl;<sub>" + letter_val + "</sub>";///+ mychar + "(" + letter_val + ")";
-            } else if (!Number.isNaN(mychar)) {
-              sum += Number.parseInt(mychar);
+            } else if (!isNaN(mychar)) {
+              sum += parseInt(mychar);
             }
           });
           sumArray.push(sum);
@@ -127,6 +122,9 @@
   document.getElementById("field1").addEventListener("keypress", forceKeyPressUppercase, false);
 
   document.getElementById("field1").addEventListener("keyup", forceKeyPressUppercase, false);
+
+  document.getElementById("field1").addEventListener("onpaste", forceKeyPressUppercase, false);
+
 </script>
 
 </html>
