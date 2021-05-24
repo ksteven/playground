@@ -32,11 +32,22 @@
               <input placeholder="Enter the word" id="field1" />
             </div>
           </div>
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Result
-              </span>
-              <span id="result"></span>
+          <div class="col m6 s12">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Result
+                </span>
+                <span id="result"></span>
+              </div>
+            </div>
+          </div>
+          <div class="col m6 s12">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Result (Reduction)
+                </span>
+                <span id="result_red"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -76,7 +87,7 @@
   console.log(letter_value);
 
   function forceKeyPressUppercase(e) {
-    console.log("do it");
+    // console.log("do it");
     var charInput = e.keyCode;
     let thewords = "";
     let sumArray = [];
@@ -88,13 +99,13 @@
     if (thewords.length > 0) {
       //now do the calculation
       let result = "";
-      console.log("the words...." + thewords);
+      // console.log("the words...." + thewords);
       let mywords = thewords.split(" ");
       mywords.forEach(theword => {
         if (theword.trim().length > 0) {
           let myletters = theword.split("");
           let sum = 0;
-          result = result + "<br/>" + " <b>" + theword + "</b>";
+          result = result + "" + " <b>" + theword + "</b>";
           myletters.forEach(mychar => {
             let letter_val = letter_value.get(mychar);
             if (!isNaN(letter_val) && letter_val > 0) {
@@ -104,16 +115,44 @@
               sum += parseInt(mychar);
             }
           });
-          sumArray.push(sum);
-          result = result + "  = <b>" + sum + "</b>";
+          let sumObj = { value: sum, word: theword }
+          sumArray.push(sumObj);
+          result = result + "  = <b>" + sum + "</b><br/>";
         }
       });
       // add all the sums
       let sum = sumArray.reduce(function (a, b) {
-        return a + b;
+        return a + b.value;
       }, 0);
-      result = result + '<br/> <SPAN STYLE="text-decoration:overline; font-weight:bold">TOTAL: ' + sum + '</span>';
+      result = result + '<SPAN STYLE="text-decoration:overline; font-weight:bold">TOTAL: ' + sum + '</span>';
       document.getElementById("result").innerHTML = result;
+
+      // now do the reduction
+      result = "";
+      sumArray.forEach((obj, index) => {
+        while (obj.value > 9) { // reduce it
+          var digits = obj.value.toString().split('');
+          var realDigits = digits.map(Number);
+          obj.value = realDigits.reduce(function (a, b) {
+            return a + b;
+          }, 0);
+        };
+        sumArray[index] = obj;
+        result = result + obj.word + "(" + obj.value + ") <br/>";
+      });
+      sum = sumArray.reduce(function (a, b) {
+        return a + b.value;
+      }, 0);
+      redsum = sum;
+      while (redsum > 9) { // reduce it
+        var digits = redsum.toString().split('');
+        var realDigits = digits.map(Number);
+        redsum = realDigits.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+      };
+      result = result + '<SPAN STYLE="text-decoration:overline; font-weight:bold">TOTAL: ' + sum + ' (' + redsum + ')</span>';
+      document.getElementById("result_red").innerHTML = result;
     } else {
       document.getElementById("result").innerHTML = "";
     }
