@@ -30,6 +30,14 @@
               <span class="card-title">Enter your word(s) here
               </span>
               <input placeholder="Enter the word" id="field1" />
+              <div class="switch">
+                <label>
+                  Text to Numbers
+                  <input id="numcheck" type="checkbox">
+                  <span class="lever"></span>
+                  Numbers to Text
+                </label>
+              </div>
             </div>
           </div>
           <div class="col m6 s12">
@@ -70,7 +78,9 @@
   // generate letter values
   let value = 1;
   let letter_value = new Map();
+  let value_letter = new Map();
   let countdown = false;
+  let arr_char = [];
   for (var letter = 65; letter < 91; letter++) {
     if (value % 7 === 0) {
       countdown = !countdown;
@@ -78,15 +88,50 @@
     var _char = String.fromCharCode(letter);
     value = (value === 0) ? 1 : value;
     letter_value.set(_char, value);
+    // make a char array to associate with each numerical value, the reverse
+    arr_char = value_letter.get(value);
+    arr_char = (arr_char == null) ? [] : arr_char;
+    arr_char.push(_char);
+    value_letter.set(value, arr_char);
     if (countdown) {
       value--;
     } else {
       value++;
     }
-  }
-  console.log(letter_value);
+  };
+  //end generate letter vales
 
-  function forceKeyPressUppercase(e) {
+  // handler for input change event
+  function checkTextOrNumber(e) {
+    let doNumberToText = document.getElementById("numcheck").checked;
+    if (doNumberToText) {
+      return numberToText(e);
+    } else {
+      return textToNumbers(e);
+    }
+  }
+
+  function numberToText(e) {
+    var charInput = e.keyCode;
+    let sumArray = [];
+
+    let theNumbers = document.getElementById("field1").value.split(" ");
+    if (theNumbers.length > 0) {
+      theNumbers.forEach((number, index) => {
+        console.log("do it");
+        var digits = number.toString().split('');
+        var realDigits = digits.map(Number);
+        console.log(realDigits);
+      });
+    } else {
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("result_red").innerHTML = "";
+    }
+  }
+  // end handler for input change
+
+  //function for Text to Numbers
+  function textToNumbers(e) {
     // console.log("do it");
     var charInput = e.keyCode;
     let thewords = "";
@@ -155,14 +200,16 @@
       document.getElementById("result_red").innerHTML = result;
     } else {
       document.getElementById("result").innerHTML = "";
+      document.getElementById("result_red").innerHTML = "";
     }
   }
 
-  document.getElementById("field1").addEventListener("keypress", forceKeyPressUppercase, false);
 
-  document.getElementById("field1").addEventListener("keyup", forceKeyPressUppercase, false);
+  document.getElementById("field1").addEventListener("keypress", checkTextOrNumber, false);
 
-  document.getElementById("field1").addEventListener("onpaste", forceKeyPressUppercase, false);
+  document.getElementById("field1").addEventListener("keyup", checkTextOrNumber, false);
+
+  document.getElementById("field1").addEventListener("onpaste", checkTextOrNumber, false);
 
 </script>
 
