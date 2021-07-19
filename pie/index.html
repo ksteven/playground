@@ -26,10 +26,14 @@
           </label>
         </div>
       </div>
+      <div class="col s2">
+        <span style="font-weight: bold;">Status: <span id="active1_off" class="red-text">Inactive</span><span
+            id="active1_on" class="hide green-text">Active</span></span>
+      </div>
     </div>
     <div class="row" id="opts_div">
       <div class="col s6">
-        <div class="input-field col s12">
+        <div class="input-field col s8">
           <select id="timeframe1">
             <option value="" disabled selected>Timeframe</option>
             <option value="1" selected>Today</option>
@@ -37,6 +41,12 @@
             <option value="3">Custom</option>
           </select>
           <label>Choose Timeframe</label>
+        </div>
+        <div class="input-field col s4">
+          <i class="material-icons prefix">timer</i>
+          <input type="number" min="1" max="60" value="1" onChange="resetTimer(this.value)" /> <span
+            class="right">minute(s)</span>
+          <label>Refresh</label>
         </div>
         <div class="input-field col s6">
           <input id="start1" type="text" onChange="setDate(this.value, 'start1')" class="datepicker time1" disabled>
@@ -48,14 +58,14 @@
         </div>
         <div class="input-field col s9">
           <select id="comp1" onChange="validateSelect1(this)" multiple required>
-            <option value="10" >Markham Courier Service Limited</option>
-            <option value="90" >Netwide Freight Systems Inc.(US)</option>
-            <option value="20" >TRANS-ONTARIO EXPRESS(LOCAL)</option>
-			 <option value="35" >Trans-Ontario Express   (Expedite)  (US)</option>
-			 <option value="30" >Netwide Freight Systems Inc. (CDN)</option>
-            <option value="65" >Trans-Ontario Express   (Expedite) (CDN)</option>
-            <option value="37" >NETWIDE FREIGHT SYSTEMS LTD.</option>
-			 <option value="80" >Netwide Cargo International LTD</option>
+            <option value="10">Markham Courier Service Limited</option>
+            <option value="90">Netwide Freight Systems Inc.(US)</option>
+            <option value="20">TRANS-ONTARIO EXPRESS(LOCAL)</option>
+            <option value="35">Trans-Ontario Express (Expedite) (US)</option>
+            <option value="30">Netwide Freight Systems Inc. (CDN)</option>
+            <option value="65">Trans-Ontario Express (Expedite) (CDN)</option>
+            <option value="37">NETWIDE FREIGHT SYSTEMS LTD.</option>
+            <option value="80">Netwide Cargo International LTD</option>
           </select>
           <label>Company Selection</label>
         </div>
@@ -66,7 +76,7 @@
         </div>
       </div>
       <div class="col s6">
-        
+
       </div>
     </div>
     <div class="row">
@@ -76,7 +86,7 @@
   </div>
   <!--JavaScript at end of body for optimized loading-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -84,25 +94,25 @@
     let current_num = 0;
     let active1 = false;
     let oilCanvas, chart1;
-    let start1 = moment(), end1=moment(); //.subtract(1, 'days'), end1 = moment();
+    let start1 = moment(), end1 = moment(); //.subtract(1, 'days'), end1 = moment();
+    let intervalTime = 60000;
+    let intTimer = setInterval(runIntProcess, intervalTime);
 
     function createBlankChart(chart_id,) {
       oilCanvas = document.getElementById(chart_id);
 
-      Chart.defaults.global.defaultFontFamily = "Lato";
-      Chart.defaults.global.defaultFontSize = 18;
+      //Chart.defaults.global.defaultFontFamily = "Lato";
+      // Chart.defaults.global.defaultFontSize = 18;
 
       var oilData = {
         labels: [
-          "",
-          "",
-          "",
-          "",
-          ""
+          "Ops",
         ],
         datasets: [
           {
+            //axis: 'y',
             data: [1, 2, 3, 4, 5],
+            label: "Orders Booked",
             backgroundColor: [
               "#FF6384",
               "#63FF84",
@@ -113,77 +123,71 @@
           }]
       };
 
-      var pieOptions = {
-        events: false,
-        animation: {
-          duration: 500,
-          easing: "easeOutQuart",
-          onComplete: function () {
-            var ctx = this.chart.ctx;
-            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'bottom';
-
-            this.data.datasets.forEach(function (dataset) {
-
-              for (var i = 0; i < dataset.data.length; i++) {
-                var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model,
-                  total = dataset._meta[Object.keys(dataset._meta)[0]].total,
-                  mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2,
-                  start_angle = model.startAngle,
-                  end_angle = model.endAngle,
-                  mid_angle = start_angle + (end_angle - start_angle) / 2;
-
-                var x = mid_radius * Math.cos(mid_angle);
-                var y = mid_radius * Math.sin(mid_angle);
-
-                ctx.fillStyle = '#fff';
-                if (i == 3) { // Darker text color for lighter background
-                  ctx.fillStyle = '#444';
-                }
-                var percent = String(Math.round(dataset.data[i] / total * 100)) + "%";
-                //ctx.fillText(dataset.data[i], model.x + x, model.y + y);
-                // Display percent in another line, line break doesn't work for fillText
-                //ctx.fillText(percent, model.x + x, model.y + y + 15);
-              }
-            });
-          }
+      var barOptions = {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Orders Booked',
+            font: {
+              size: 18
+            }
+          },
+          legend: {
+            display: false
+          },
         }
       };
 
       return new Chart(oilCanvas, {
-        type: 'pie',
+        type: 'bar',
         data: oilData,
-        options: pieOptions
+        options: barOptions
       });
 
-    }
+    };
 
-
-    setInterval(runIntProcess, 60000);
+    function resetTimer(newTime) {
+      console.log("change to" + newTime);
+      clearInterval(intTimer);
+      intervalTime = newTime * 60000;
+      intTimer = setInterval(runIntProcess, intervalTime);
+    };
 
     function runIntProcess() {
       if (active1) {
         // collect variables
+        if (end1 < start1) {
+          alert("End date must be after start date");
+          chart1.clear();
+          active1 = false;
+          toggleActiveStatus("active1");
+          return false;
+        }
         let startStr = start1.format("yyyy,MM,DD") + ",00,00,00";
         let endStr = end1.format("yyyy,MM,DD") + ",23,59,59";
-		
-		let compnoStr="10,90";
-		var options = document.getElementById('comp1').selectedOptions;
-		var values = Array.from(options).map(({ value }) => value);
-		console.log(values);
-		if(values.length<1){
-			alert("At least one company option must be selected");
-			return false;
-		}
-		compnoStr=values.join(",");
+
+        let compnoStr = "10,90";
+        var options = document.getElementById('comp1').selectedOptions;
+        var values = Array.from(options).map(({ value }) => value);
+        console.log(values);
+        if (values.length < 1) {
+          alert("At least one company option must be selected");
+          chart1.clear();
+          active1 = false;
+          toggleActiveStatus("active1");
+          return false;
+        }
+        compnoStr = values.join(",");
 
         console.log("GET DATA");
-        getData(chart1, compnoStr, startStr, endStr);
+        if (values.length > 0) {
+          getData(chart1, compnoStr, startStr, endStr, start1, end1);
+          return true;
+        }
       }
     }
 
-    function getData(pieChart, compno, start, end) {
+    function getData(pieChart, compno, start, end, mStart, mEnd) {
       let url = `http://trace.transontario.com/sktracing/wc.dll?sktracingprocess~operationswatch~&compno=${compno}&startdate=${start}&enddate=${end}`;
       console.log(url);
       //return false;
@@ -193,6 +197,13 @@
           //console.log(data)
           elabels = [];
           etotals = [];
+          if (!data || !isIterable(data)) {
+            pieChart.clear();
+            alert("No data found in selected range.");
+            active1 = false;
+            toggleActiveStatus("active1");
+            return false;
+          }
           for (emp of data) {
             elabels.push(emp.fname);
             etotals.push(emp.ototal);
@@ -203,7 +214,28 @@
           if (data.length != current_num) {
             current_num = data.length;
             pieChart.data.datasets[0].backgroundColor = genColors(data.length);
+          };
+          let dateStr = "";
+          if (mStart.isSame(mEnd)) {
+            dateStr = mStart.format('MMM DD, YYYY');
+          } else {
+            dateStr = mStart.format('MMM DD, YYYY') + " to " + mEnd.format('MMM DD, YYYY');
           }
+          let barOptions = {
+            plugins: {
+              title: {
+                display: true,
+                text: `Orders Booked: ${dateStr}`,
+                font: {
+                  size: 18
+                }
+              },
+              legend: {
+                display: false
+              },
+            }
+          };
+          pieChart.options = barOptions;
           pieChart.update();
         });
     }
@@ -534,29 +566,60 @@
       var element = document.getElementById("chart1");
       //do show hide
       if (active1) {
+        toggleActiveStatus("active1");
         element.classList.remove("hide");
         if (!chart1) {
           chart1 = createBlankChart("chart1");
         }
-        setTimeout(runIntProcess(), 1000);
+        setTimeout(() => {
+          let rtnval = runIntProcess();
+          if (!rtnval) {
+            chart1.clear();
+          }
+        }, 1000);
       } else {
         element.classList.add("hide");
+        toggleActiveStatus("active1");
+        chart1.clear();
       }
     }
 
     function setDate(val, variable) {
-      console.log(val);
-      return eval(variable + '= moment("MMM dd,yyyy", val)');
+      eval(variable + '= moment(val,"MMM DD, YYYY",true)');
+      var result = eval(variable + ".isValid()");
+      if (!result) { // set Date failed
+        console.error("SET date failed!!", eval(variable), eval(val));
+      }
     }
-	
-	function validateSelect1(sel){
-		var options = sel.selectedOptions;
-		var values = Array.from(options).map(({ value }) => value);
-		console.log(sel.selectedOptions);
-		if(values.length<1){
-			alert("At least one select option must be selected");
-		}
-	}
+
+    function validateSelect1(sel) {
+      var options = sel.selectedOptions;
+      var values = Array.from(options).map(({ value }) => value);
+      console.log(sel.selectedOptions);
+      if (values.length < 1) {
+        alert("At least one select option must be selected");
+      }
+    }
+
+    function isIterable(value) {
+      return Symbol.iterator in Object(value);
+    }
+
+    function toggleActiveStatus(activeText) {
+      let val = eval(activeText);
+      if (val) { // is active
+        let element = document.getElementById(activeText + "_off");
+        element.classList.add("hide");
+        element = document.getElementById(activeText + "_on");
+        element.classList.remove("hide");
+      } else {
+        let element = document.getElementById(activeText + "_off");
+        element.classList.remove("hide");
+        element = document.getElementById(activeText + "_on");
+        element.classList.add("hide");
+        chart1.clear();
+      }
+    }
 
   </script>
 </body>
