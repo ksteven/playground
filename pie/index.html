@@ -15,6 +15,15 @@
 <body>
   <div class="">
     <div class="row">
+      <div class="col s4 m3">
+        <span style="font-weight: bold;">Status: <span id="active1_off" class="red-text">Inactive</span><span
+            id="active1_on" class="hide green-text">Active</span>
+          <span id="active1_load" class="hide orange-text">Loading...</span></span>
+        </span>
+      </div>
+      <div class="col s1 m1">
+        <span class="right" style="font-weight: bold;">Options:</span>
+      </div>
       <div class="col s4 m2">
         <!-- Switch -->
         <div class="switch">
@@ -25,21 +34,6 @@
             Show
           </label>
         </div>
-      </div>
-      <div class="col s4 m2">
-        <span style="font-weight: bold;">Status: <span id="active1_off" class="red-text">Inactive</span><span
-            id="active1_on" class="hide green-text">Active</span>
-          <span id="active1_load" class="hide orange-text">Loading...</span></span>
-        </span>
-      </div>
-      <div class="col s4 m2 input-field">
-        <span id="emp1_div" class="s8 m8 col">
-          <select class="tooltipped" data-tooltip="Generate chart to filter" id="emp1" multiple disabled>
-            <option value="10">Filter</option>
-          </select>
-        </span>
-        <a onclick="doFilter()" class="col s4 m4 waves-effect waves-light btn-small right tooltipped"
-          data-tooltip="Click to Filter"><i class="material-icons">filter_list</i></a>
       </div>
     </div>
     <div class="row" id="opts_div">
@@ -55,9 +49,8 @@
         </div>
         <div class="input-field col s3 m4">
           <i class="material-icons prefix hide-on-small-only">timer</i>
-          <input type="number" min="1" max="60" value="1" onChange="resetTimer(this.value)" /> <span
-            class="right">minute(s)</span>
-          <label>Refresh</label>
+          <input type="number" min="1" max="60" value="1" onChange="resetTimer(this.value)" />
+          <label>Refresh (minutes)</label>
         </div>
         <div class="input-field col s6 time1">
           <input id="start1" type="text" onChange="setDate(this.value, 'start1')" class="datepicker" />
@@ -67,7 +60,7 @@
           <input id="end1" type="text" onChange="setDate(this.value, 'end1')" class="datepicker" />
           <label for="end1">End</label>
         </div>
-        <div class="input-field col s9">
+        <div class="input-field col s9 m5">
           <select id="comp1" onChange="validateSelect1(this)" multiple required>
             <option value="10">Markham Courier Service Limited</option>
             <option value="90">Netwide Freight Systems Inc.(US)</option>
@@ -80,7 +73,18 @@
           </select>
           <label>Company Selection</label>
         </div>
-        <div class="col s3 input-field">
+
+        <div class="col s4 m4 input-field">
+          <span data-tooltip="Generate chart to filter" id="emp1_div" class="tooltipped">
+            <select id="emp1" multiple>
+              <option value="10" disabled>Filter</option>
+            </select>
+            <label>Filter</label>
+          </span>
+          <!-- <a id="filterbtn" onclick="doFilter()" class="hide col s3 m3 waves-effect waves-light btn-small tooltipped"
+            data-tooltip="Click to Filter"><i class="material-icons">filter_list</i></a> -->
+        </div>
+        <div class="col s3 m3 input-field">
           <button onClick="activateChart(1)" class="btn blue waves-effect waves-light" type="button"
             name="action">Generate
             <i class="material-icons right">insert_chart</i>
@@ -533,7 +537,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('select');
       var instances = M.FormSelect.init(elems, {});
-      filter_instance = instances[0];
+      filter_instance = instances[2];
     });
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -581,6 +585,9 @@
       var element = document.getElementById("chart1");
       //do show hide
       if (active1) {
+        if (filter_instance.getSelectedValues().length > 0) {
+          doFilter(true);
+        }
         toggleActiveStatus("active1");
         element.classList.remove("hide");
         if (!chart1) {
@@ -662,11 +669,13 @@
       output = `<select id="emp1" onblur="updateSelectLabel()" multiple>${output}</select>`;
       //filter_instance.destroy();
       filter.innerHTML = output; //+ `<a class="col s4 m4 waves-effect waves-light btn-small right"><i class="material-icons">filter_list</i></a>`;
+      filter.dataset.tooltip = "Filter By Employee";
       //setTimeout(1000, () => {
       let elems = document.querySelectorAll('select');
       let instances = M.FormSelect.init(elems, {});
       //filter_instance.destroy();
-      filter_instance = instances[0];
+      filter_instance = instances[2];
+      //document.getElementById("filterbtn").classList.remove("hide");
     };
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -681,10 +690,14 @@
       filter_instance.input.value = `${num} Selected`
     }
 
-    function doFilter() {
+    function doFilter(skiprun) {
       var options = document.getElementById('emp1').selectedOptions;
       var values = Array.from(options).map(({ value }) => value);
       //console.log(values);
+      if (filterarray.length < 1) {
+        alert("Generate report before using filter");
+        return false;
+      }
       if (values.length < 1) {
         alert("At least one employee must be selected");
         return false;
@@ -692,7 +705,10 @@
         empnoSelectedFilter = values;
         let num = filter_instance.getSelectedValues().length;
         filter_instance.input.value = `${num} Selected`
-        return runIntProcess();
+        if (skiprun === null || !skiprun) {
+          runIntProcess();
+        }
+        return true;
       }
     }
 
