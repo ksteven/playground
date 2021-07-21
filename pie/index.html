@@ -15,7 +15,7 @@
 <body>
   <div class="">
     <div class="row">
-      <div class="col s4 m3">
+      <div class="col s4 m2">
         <!-- Switch -->
         <div class="switch">
           <label>
@@ -26,11 +26,20 @@
           </label>
         </div>
       </div>
-      <div class="col s4 m3">
+      <div class="col s4 m2">
         <span style="font-weight: bold;">Status: <span id="active1_off" class="red-text">Inactive</span><span
             id="active1_on" class="hide green-text">Active</span>
           <span id="active1_load" class="hide orange-text">Loading...</span></span>
         </span>
+      </div>
+      <div class="col s4 m2 input-field">
+        <span id="emp1_div" class="s8 m8 col">
+          <select class="tooltipped" data-tooltip="Generate chart to filter" id="emp1" multiple disabled>
+            <option value="10">Filter</option>
+          </select>
+        </span>
+        <a onclick="doFilter()" class="col s4 m4 waves-effect waves-light btn-small right tooltipped"
+          data-tooltip="Click to Filter"><i class="material-icons">filter_list</i></a>
       </div>
     </div>
     <div class="row" id="opts_div">
@@ -72,8 +81,9 @@
           <label>Company Selection</label>
         </div>
         <div class="col s3 input-field">
-          <button onClick="activateChart(1)" class="btn waves-effect waves-light" type="button" name="action">Generate
-            <i class="material-icons right">send</i>
+          <button onClick="activateChart(1)" class="btn blue waves-effect waves-light" type="button"
+            name="action">Generate
+            <i class="material-icons right">insert_chart</i>
           </button>
         </div>
       </div>
@@ -98,6 +108,9 @@
     let intervalTime = 60000;
     let intTimer = setInterval(runIntProcess, intervalTime);
     let loading = false;
+    let filter_instance;
+    let filterarray = [];
+    let empnoSelectedFilter = [];
 
     function createBlankChart(chart_id,) {
       oilCanvas = document.getElementById(chart_id);
@@ -215,10 +228,16 @@
             toggleActiveStatus("active1");
             return false;
           }
+          if (data.length > filterarray.length) {
+            addElementsToFilter("emp1_div", data);
+          }
           for (emp of data) {
-            let elabel = emp.fname + " " + emp.lname.charAt(0);
-            elabels.push(elabel);
-            etotals.push(emp.ototal);
+            if (empnoSelectedFilter.length < 1 || empnoSelectedFilter.indexOf(emp.empno) > -1) {
+              console.log()
+              let elabel = emp.fname + " " + emp.lname.charAt(0);
+              elabels.push(elabel);
+              etotals.push(emp.ototal);
+            }
           }
           //console.log(elabels, etotals);
           pieChart.data.labels = elabels;
@@ -514,6 +533,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('select');
       var instances = M.FormSelect.init(elems, {});
+      filter_instance = instances[0];
     });
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -613,6 +633,66 @@
         element = document.getElementById(activeText + "_on");
         element.classList.add("hide");
         chart1.clear();
+      }
+    }
+
+    function addElementsToFilter(select_id, options) {
+      console.log(select_id, options);
+      var filter = document.getElementById(select_id);
+      let output = "";
+      if (filterarray.length < 1) { // new filter
+        filterarray = options.slice(0);
+      } else {
+        for (opt of options) { // only add new ones
+          var index = filterarray.findIndex(x => x.empno === opt.empno);
+          // here you can check specific property for an object whether it exist in your array or not
+          index === -1 ? filterarray.push(opt) : console.log("object already exists")
+        }
+      }
+      console.log(filterarray);
+      filterarray.sort(function (a, b) {
+        if (a.fname < b.fname) { return -1; }
+        if (a.fname > b.fname) { return 1; }
+        return 0;
+      })
+
+      for (emp of filterarray) {
+        output = output + `<option value="${emp.empno}" selected>${emp.fname + " " + emp.lname}</option>`;
+      }
+      output = `<select id="emp1" onblur="updateSelectLabel()" multiple>${output}</select>`;
+      //filter_instance.destroy();
+      filter.innerHTML = output; //+ `<a class="col s4 m4 waves-effect waves-light btn-small right"><i class="material-icons">filter_list</i></a>`;
+      //setTimeout(1000, () => {
+      let elems = document.querySelectorAll('select');
+      let instances = M.FormSelect.init(elems, {});
+      //filter_instance.destroy();
+      filter_instance = instances[0];
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.tooltipped');
+      var instances = M.Tooltip.init(elems, {});
+    });
+
+    function updateSelectLabel() {
+      //e.preventDefault();
+      console.log("update select");
+      let num = filter_instance.getSelectedValues().length;
+      filter_instance.input.value = `${num} Selected`
+    }
+
+    function doFilter() {
+      var options = document.getElementById('emp1').selectedOptions;
+      var values = Array.from(options).map(({ value }) => value);
+      //console.log(values);
+      if (values.length < 1) {
+        alert("At least one employee must be selected");
+        return false;
+      } else {
+        empnoSelectedFilter = values;
+        let num = filter_instance.getSelectedValues().length;
+        filter_instance.input.value = `${num} Selected`
+        return runIntProcess();
       }
     }
 
