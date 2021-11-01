@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HASHTAG - COMPARE
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.6
 // @description  team comparison tool
 // @author       You
 // @match        https://hashtagbasketball.com/*
@@ -39,7 +39,8 @@
     teamListSelect = teamListSelect + `</select>`
     let thead = `
     <tr align="center">
-			<th scope="col">R#</th><th scope="col"><a href="#">ADP</a></th><th scope="col"><a href="#">PLAYER</a></th><th scope="col"><a href="#">POS</a></th>
+			<th scope="col">R#</th>
+            <th scope="col"><a href="#">PLAYER</a></th><th scope="col"><a href="#">POS</a></th>
             <th scope="col"><a href="#">GP</a></th>
             <th scope="col"><a href="#">GP</a></th>
             <th scope="col"><a href="#">MPG</a></th>
