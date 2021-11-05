@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HASHTAG - COMPARE
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  team comparison tool
 // @author       You
 // @match        https://hashtagbasketball.com/*
