@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const url = "https://ksteven.github.io/playground/wwg/js/data.txt";
+  const url = "https://raw.githubusercontent.com/ksteven/playground/master/wwg/js/data%20txt" //"https://ksteven.github.io/playground/wwg/js/data.txt";
   var table;
   var selected_player = "";
   $.getJSON(url, function (data) {
