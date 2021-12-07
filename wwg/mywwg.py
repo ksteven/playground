@@ -1,19 +1,24 @@
 import json
-import urllib2
+#import urllib2
+from urllib.request import urlopen
 import re
-from lxml import html
+import lxml.html
+import traceback
+import logging
+import ssl
 
-game_start = 3366  # start of games you want to get
-game_end = 3379  # last game you want to get
+game_start = 3379  # start of games you want to get
+game_end = 3444  # last game you want to get
 
 records = []
+gcontext = ssl.SSLContext()  # Only for gangstars
 
 for game in range(game_start, game_end+1):
     try:
         gameno = str(game)
-        data = urllib2.urlopen(
-            "https://www.braingle.com/games/werewolf/game.php?id="+gameno).read()
-        tree = html.fromstring(data)
+        data = urlopen(
+            "https://www.braingle.com/games/werewolf/game.php?id="+gameno, context=gcontext).read()
+        tree = lxml.html.fromstring(data)
         print('GAME: ' + gameno)
         players = tree.xpath('//div[@class="boxed"]//table//tr//td//a/text()')
         if len(players) < 1:
@@ -32,11 +37,11 @@ for game in range(game_start, game_end+1):
         roundsurvived = []
         fate = []
         for res in survived:
-            s = html.tostring(res)
+            s = lxml.html.tostring(res).decode()
             # use images to determine fate
-            if "accept.png" in s:
+            if s.find("accept.png") > -1:  # "accept.png" in s:
                 fate.append("Survived")
-            elif "blood.gif" in s:
+            elif s.find("blood.gif") > -1:
                 fate.append("Eaten")
             else:
                 fate.append("Shot")
@@ -62,7 +67,8 @@ for game in range(game_start, game_end+1):
                 "Fate": fate[i]
             }
             records.append(record)
-    except:
+    except Exception as e:
+        logging.error(traceback.format_exc())
         print('INVALID GAME')
         continue
 
